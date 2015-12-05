@@ -33,7 +33,7 @@ namespace NinjaNunu.Modes
                 }
             }
 
-            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaE)
+            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaE || Player.Instance.HasBuff("Visionary") && Settings.UseE && E.IsReady())
             {
                 var Emonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);
                 if (Emonsters != null)

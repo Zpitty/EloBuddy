@@ -38,7 +38,7 @@ namespace NinjaNunu
         {
             if (Config.Draw.DMenu["QDraw"].Cast<CheckBox>().CurrentValue)
             {
-            Circle.Draw(Color.Green, 125, Player.Instance.Position);
+            Circle.Draw(Color.Green, SpellManager.Q.Range, Player.Instance.Position);
             }
 
             if (Config.Draw.DMenu["WDraw"].Cast<CheckBox>().CurrentValue)
