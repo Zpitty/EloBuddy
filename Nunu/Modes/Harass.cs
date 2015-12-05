@@ -17,7 +17,7 @@ namespace NinjaNunu.Modes
 
         public override void Execute()
         {
-            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visionary") && Settings.UseE && E.IsReady())
+            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);
                 if (target != null)

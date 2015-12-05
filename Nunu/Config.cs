@@ -71,7 +71,9 @@ namespace NinjaNunu
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
+                private static readonly Slider _manaW;
                 private static readonly Slider _minR;
+
 
                 public static bool UseQ
                 {
@@ -90,6 +92,11 @@ namespace NinjaNunu
                     get { return _useR.CurrentValue; }
                 }
 
+                public static int ManaW
+                {
+                    get { return _manaW.CurrentValue; }
+                }
+
                 public static int MinR
                 {
                     get { return _minR.CurrentValue; }
@@ -102,6 +109,7 @@ namespace NinjaNunu
                     _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
+                    _minR = Menu.Add("WMana", new Slider("Use W Until % Mana", 40, 0, 100));
                     _minR = Menu.Add("minnumberR", new Slider("Min. Enemies for R", 2, 0, 5));
                 }
 
@@ -336,12 +344,10 @@ namespace NinjaNunu
                 {
                     SMenu.AddGroupLabel("Smite Options");
                     SMenu.AddSeparator();
-                    SMenu.Add("EnableSmite", new KeyBind("Enable Smite (Toggle)", true, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteToggle = SMenu.Add("EnableSmite", new KeyBind("Enable Smite (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
                     _smiteEnemies = SMenu.Add("EnableSmiteEnemies", new CheckBox("Use Blue Smite to KS"));
                     SMenu.AddSeparator();
-                    SMenu.AddGroupLabel("Monsters to smite");
-                    SMenu.AddLabel("Select monsters you want to smite");
-                    SMenu.AddSeparator();
+                    SMenu.AddGroupLabel("Smiteable Monsters");
                     SMenu.Add("SRU_Baron", new CheckBox("Baron"));
                     SMenu.Add("SRU_Dragon", new CheckBox("Dragon"));
                     SMenu.Add("SRU_Red", new CheckBox("Red"));
