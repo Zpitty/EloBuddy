@@ -5,7 +5,6 @@ using EloBuddy.SDK.Rendering;
 using SharpDX;
 using EloBuddy.SDK.Menu.Values;
 
-
 namespace NinjaNunu
 {
     public static class Program

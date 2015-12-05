@@ -3,8 +3,6 @@ using EloBuddy;
 using EloBuddy.SDK;
 using Settings = NinjaNunu.Config.Modes.Harass;
 
-
-
 namespace NinjaNunu.Modes
 {
     public sealed class Harass : ModeBase

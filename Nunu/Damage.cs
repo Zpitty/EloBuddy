@@ -1,10 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 
-
-
-
-
 namespace NinjaNunu
 {
     internal class Damage

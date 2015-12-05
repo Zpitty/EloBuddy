@@ -2,7 +2,6 @@
 using EloBuddy.SDK;
 using System.Linq;
 
-
 namespace NinjaNunu
 {
     public static class SpellManager
