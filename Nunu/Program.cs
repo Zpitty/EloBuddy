@@ -28,7 +28,7 @@ namespace NinjaNunu
             Config.Initialize();
             SpellManager.Initialize();
             ModeManager.Initialize();
-            Smiter.Initialize();
+            SmiteDamage.Initialize();
             Damage.Initialize();
             
             Drawing.OnDraw += OnDraw;

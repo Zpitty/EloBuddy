@@ -52,7 +52,7 @@ namespace NinjaNunu.Modes
             // Blue Smite KS - VodkaSmite
             if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker") && !ChannelingR())
             {
-                var enemy = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Smiter.SmiteDmgHero(e));
+                var enemy = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
                 if (enemy != null)
                 {
                     Smite.Cast(enemy);
@@ -63,7 +63,7 @@ namespace NinjaNunu.Modes
             // Consume + Smite - VodkaSmite
             var monsters =
                 EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Smite.Range)
-                    .Where(e => !e.IsDead && e.Health > 0 && Smiter.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Smiter.SmiteDmgMonster(e) + Damage.QDamage(e));
+                    .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e) + Damage.QDamage(e));
             foreach (var m in monsters)
             {
                 if (Config.Smite.SmiteMenu.MainMenu[m.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsReady() && Smite.IsReady() && !ChannelingR() && Player.Instance.Position.IsInRange(m, 300))
@@ -77,7 +77,7 @@ namespace NinjaNunu.Modes
             // Smite Monsters - VodkaSmite
             var monsters2 =
                 EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Smite.Range)
-                    .Where(e => !e.IsDead && e.Health > 0 && Smiter.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Smiter.SmiteDmgMonster(e));
+                    .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e));
             foreach (var n in monsters2)
             {
                 if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsOnCooldown && Smite.IsReady() && !ChannelingR())

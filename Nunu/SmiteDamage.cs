@@ -5,7 +5,7 @@ using SharpDX;
 
 namespace NinjaNunu
 {
-    class Smiter
+    class SmiteDamage
     {
 
         //VodkaSmite
