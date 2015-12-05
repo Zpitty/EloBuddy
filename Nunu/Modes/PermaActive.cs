@@ -44,7 +44,7 @@ namespace NinjaNunu.Modes
                 return;
             }
 
-            if (!Smite.IsReady() || !(Config.Smite.SmiteMenu.SmiteEnabled || Config.Smite.SmiteMenu.SmiteEnabledToggle))
+            if (!Smite.IsReady() || !(Config.Smite.SmiteMenu.SmiteEnabled))
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace NinjaNunu.Modes
                     .Where(e => !e.IsDead && e.Health > 0 && Smiter.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Smiter.SmiteDmgMonster(e) + Damage.QDamage(e));
             foreach (var m in monsters)
             {
-                if (Config.Smite.SmiteMenu.MainMenu[m.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsReady() && Smite.IsReady() && !ChannelingR() && Player.Instance.Position.IsInRange(m, 300))
+                if (Config.Smite.SmiteMenu.MainMenu[m.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsReady() && Smite.IsReady() && !ChannelingR()  && Player.Instance.Position.IsInRange(m, 300))
                 {
                     Q.Cast(m);
                     Smite.Cast(m);
@@ -80,7 +80,7 @@ namespace NinjaNunu.Modes
                     .Where(e => !e.IsDead && e.Health > 0 && Smiter.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Smiter.SmiteDmgMonster(e));
             foreach (var n in monsters2)
             {
-                if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsOnCooldown && Smite.IsReady() && !ChannelingR())
+                if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsOnCooldown && Smite.IsReady() && !ChannelingR() || Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue)
                 {
                     Smite.Cast(n);
                     return;

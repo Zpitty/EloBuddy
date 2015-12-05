@@ -315,7 +315,6 @@ namespace NinjaNunu
             {
                 public static readonly CheckBox _smiteEnabled;
                 public static readonly CheckBox _smiteEnemies;
-                private static readonly KeyBind _smiteEnabledToggle;
 
                 public static Menu MainMenu
                 {
@@ -333,17 +332,11 @@ namespace NinjaNunu
                     get { return _smiteEnemies.CurrentValue; }
                 }
 
-                public static bool SmiteEnabledToggle
-                {
-                    get { return _smiteEnabledToggle.CurrentValue; }
-                }
-
                 static SmiteMenu()
                 {
                     SMenu.AddGroupLabel("Smite Options");
                     SMenu.AddSeparator();
-                    _smiteEnabled = SMenu.Add("EnableSmite", new CheckBox("Use Smite for Monsters"));
-                    _smiteEnabledToggle = SMenu.Add("EnableSmiteToggle", new KeyBind("Enabled (Toggle Key)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteEnabled = SMenu.Add("EnableSmite", new CheckBox("Always Smite"));
                     _smiteEnemies = SMenu.Add("EnableSmiteEnemies", new CheckBox("Use Blue Smite to KS"));
                     SMenu.AddSeparator();
                     SMenu.AddGroupLabel("Monsters to smite");
