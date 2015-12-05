@@ -3,9 +3,8 @@ using EloBuddy;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
-using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using System.Linq;
+
 
 namespace NinjaNunu
 {

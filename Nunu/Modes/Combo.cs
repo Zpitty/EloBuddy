@@ -1,7 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using System.Linq;
-using EloBuddy.SDK.Enumerations;
 using Settings = NinjaNunu.Config.Modes.Combo;
 
 namespace NinjaNunu.Modes
