@@ -2,22 +2,21 @@
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
-using Settings = Nunu.Config.Modes.LaneClear;
+using Settings = NinjaNunu.Config.Modes.LaneClear;
 
-namespace Nunu.Modes
+namespace NinjaNunu.Modes
 {
     public sealed class LaneClear : ModeBase
     {
         public override bool ShouldBeExecuted()
         {
-            // Only execute this mode when the orbwalker is on laneclear mode
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear);
         }
 
         public override void Execute()
         {
 
-            if (Settings.UseQ && Q.IsReady())
+            if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
                 var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
                 if (Lmonsters != null)
@@ -27,7 +26,7 @@ namespace Nunu.Modes
                 }
             }
 
-            if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaW)
+            if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
                 var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 700);
                 if (ally != null && Player.Instance.CountEnemiesInRange(1500) > 1)
@@ -41,8 +40,8 @@ namespace Nunu.Modes
                     return;
                 }
             }
-            // TODO: Add laneclear logic here
-            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaE)
+
+            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
                 var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
                 if (Lmonsters != null)

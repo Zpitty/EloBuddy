@@ -2,29 +2,28 @@
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
-using Settings = Nunu.Config.Modes.Combo;
+using Settings = NinjaNunu.Config.Modes.LastHit;
 
-namespace Nunu.Modes
+namespace NinjaNunu.Modes
 {
     public sealed class LastHit : ModeBase
     {
         public override bool ShouldBeExecuted()
         {
-            // Only execute this mode when the orbwalker is on lasthit mode
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit);
         }
 
         public override void Execute()
         {
-            // TODO: Add lasthit logic here
-            //if (Q.IsReady())
-            //{
-            //    var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-            //    if (target != null)
-            //    {
-            //        Q.Cast(target);
-            //    }
-            //}
+            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.ManaLastHit)
+            {
+                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);
+                if (Lmonsters.Health <= Damage.EDamage(Lmonsters))
+                {
+                    E.Cast(Lmonsters);
+                    return;
+                }
+            }
         }
     }
 }

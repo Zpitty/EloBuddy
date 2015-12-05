@@ -7,10 +7,10 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
-using Settings = Nunu.Config.Modes.JungleClear;
-using Settings2 = Nunu.Config.Modes.MiscMenu;
+using Settings = NinjaNunu.Config.Modes.JungleClear;
+using Settings2 = NinjaNunu.Config.Modes.MiscMenu;
 
-namespace Nunu.Modes
+namespace NinjaNunu.Modes
 {
     public sealed class JungleClear : ModeBase
     {
@@ -25,12 +25,14 @@ namespace Nunu.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var Jmonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);
-                if (Damage.QDamage(Jmonsters) > Jmonsters.Health)
+                //if (Damage.QDamage(Jmonsters) > Jmonsters.Health)
+                if (Jmonsters.Health <= Damage.QDamage(Jmonsters))
                 {
                     Q.Cast(Jmonsters);
                     return;
                 }
             }
+
             if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaE)
             {
                 var Emonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);

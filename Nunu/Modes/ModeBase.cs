@@ -1,14 +1,10 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 
-namespace Nunu.Modes
+namespace NinjaNunu.Modes
 {
     public abstract class ModeBase
     {
-        // Change the spell type to whatever type you used in the SpellManager
-        // here to have full features of that spells, if you don't need that,
-        // just change it to Spell.SpellBase, this way it's dynamic with still
-        // the most needed functions
         protected Spell.Targeted Q
         {
             get { return SpellManager.Q; }
@@ -24,6 +20,16 @@ namespace Nunu.Modes
         protected Spell.Active R
         {
             get { return SpellManager.R; }
+        }
+
+        protected Spell.Targeted Smite
+        {
+            get { return SpellManager.Smite; }
+        }
+
+        protected bool HasSmite
+        {
+            get { return SpellManager.HasSmite(); }
         }
 
         protected bool ChannelingR()
