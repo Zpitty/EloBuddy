@@ -62,18 +62,12 @@ namespace NinjaNunu
 
             public static class Combo
             {
-                private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
                 private static readonly Slider _manaW;
                 private static readonly Slider _minR;
 
-
-                public static bool UseQ
-                {
-                    get { return _useQ.CurrentValue; }
-                }
                 public static bool UseW
                 {
                     get { return _useW.CurrentValue; }
@@ -100,11 +94,10 @@ namespace NinjaNunu
                 static Combo()
                 {
                     Menu.AddGroupLabel("Combo");
-                    _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
-                    _minR = Menu.Add("WMana", new Slider("Use W Until % Mana", 40, 0, 100));
+                    _manaW = Menu.Add("WMana", new Slider("Use W Until % Mana", 40, 0, 100));
                     _minR = Menu.Add("minnumberR", new Slider("Min. Enemies for R", 2, 0, 5));
                 }
 
@@ -199,8 +192,8 @@ namespace NinjaNunu
                     _useQ = Menu.Add("jungleUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("jungleUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("jungleUseE", new CheckBox("Use E"));
-                    _minManaE = Menu.Add("jungleManaW", new Slider("Minimum Mana W", 40, 0, 100));
-                    _minManaW = Menu.Add("jungleManaE", new Slider("Minimum Mana E", 40, 0, 100));
+                    _minManaW = Menu.Add("jungleManaW", new Slider("Minimum Mana W", 40, 0, 100));
+                    _minManaE = Menu.Add("jungleManaE", new Slider("Minimum Mana E", 40, 0, 100));
                 }
 
                 public static void Initialize()

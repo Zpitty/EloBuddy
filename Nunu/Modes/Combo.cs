@@ -18,8 +18,8 @@ namespace NinjaNunu.Modes
 
             if (ChannelingR())  //WujuSan
             {
-                var TargetR = TargetSelector.GetTarget(R.Range, DamageType.Magical);
-                if (!EntityManager.Heroes.Enemies.Any(it => it.IsValidTarget(575))) //Considering that when you started to cast R there was MinR enemies in your range
+                var TargetR = TargetSelector.GetTarget(1000, DamageType.Magical);
+                if (EntityManager.Heroes.Enemies.Count(h => h.IsValidTarget(575)) < 1) //Considering that when you started to cast R there was MinR enemies in your range
                 {
                     //for ensure that Nunu will cancel his ult, you need to make Nunu move
 
@@ -41,6 +41,8 @@ namespace NinjaNunu.Modes
 
             }
 
+            
+
             if (Settings.UseE && E.IsReady() && !ChannelingR())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);
@@ -53,17 +55,17 @@ namespace NinjaNunu.Modes
 
             if (Settings.UseW && W.IsReady() && !ChannelingR() && Player.Instance.ManaPercent >= Settings.ManaW)
             {
-                var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 700);
-                if (ally != null && Player.Instance.CountEnemiesInRange(1000) > 0)
+                var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 1000);
+                if (ally != null && Player.Instance.CountEnemiesInRange(1500) > 0)
                 {
                     W.Cast(ally);
                     return;
                 }
-                if (Settings.UseW && W.IsReady() && Player.Instance.CountEnemiesInRange(1000) > 0)
+                if (Settings.UseW && W.IsReady() && Player.Instance.CountEnemiesInRange(1500) > 0)
                 {
                     W.Cast(Player.Instance);
                     return;
-                }       
+                }
             }
         }
     }

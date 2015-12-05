@@ -60,8 +60,8 @@ namespace NinjaNunu.Modes
             {
                 if (Config.Smite.SmiteMenu.MainMenu[m.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsReady() && Smite.IsReady() && !ChannelingR() && Player.Instance.Position.IsInRange(m, 300))
                 {
-                    Q.Cast(m);
                     Smite.Cast(m);
+                    Q.Cast(m);                   
                     return;
                 }
             }

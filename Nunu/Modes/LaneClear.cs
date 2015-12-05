@@ -37,13 +37,13 @@ namespace NinjaNunu.Modes
 
             if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
-                var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 700);
-                if (ally != null && Player.Instance.CountEnemiesInRange(1000) > 0)
+                var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 1000);
+                if (ally != null && Player.Instance.CountEnemiesInRange(1500) > 0)
                 {
                     W.Cast(ally);
                     return;
                 }
-                if (Settings.UseW && W.IsReady() && Player.Instance.CountEnemiesInRange(1000) > 0)
+                if (Settings.UseW && W.IsReady() && Player.Instance.CountEnemiesInRange(1500) > 0)
                 {
                     W.Cast(Player.Instance);
                     return;

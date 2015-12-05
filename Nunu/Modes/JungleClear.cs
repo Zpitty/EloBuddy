@@ -39,6 +39,12 @@ namespace NinjaNunu.Modes
 
             if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaW)
             {
+                var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 1000);
+                if (ally != null)
+                {
+                    W.Cast(ally);
+                    return;
+                }
                 if (Settings.UseW && W.IsReady())
                 {
                     W.Cast(Player.Instance);
