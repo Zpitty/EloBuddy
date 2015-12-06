@@ -18,7 +18,7 @@ namespace NinjaNunu.Modes
         {
             if (Settings.UseQ && Q.IsReady())
             {
-                var Jmonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 220);
+                var Jmonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 300);
                 //if (Damage.QDamage(Jmonsters) > Jmonsters.Health)
                 if (Jmonsters.Health <= Damage.QDamage(Jmonsters))
                 {

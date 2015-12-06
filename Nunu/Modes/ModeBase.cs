@@ -45,11 +45,6 @@ namespace NinjaNunu.Modes
             return Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask");
         }
 
-        protected bool HasIgnite
-        {
-            get { return SpellManager.HasIgnite(); }
-        }
-
         public abstract bool ShouldBeExecuted();
 
         public abstract void Execute();

@@ -16,7 +16,7 @@ namespace NinjaNunu.Modes
         {           
             if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())
             {
-                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < E.Range);
+                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
                 if (Lmonsters != null)
                 {
                     E.Cast(Lmonsters);
@@ -41,7 +41,7 @@ namespace NinjaNunu.Modes
 
             if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
-                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 220);
+                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
                 if (Lmonsters != null)
                 {
                     Q.Cast(Lmonsters);

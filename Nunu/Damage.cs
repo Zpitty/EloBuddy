@@ -24,11 +24,6 @@ namespace NinjaNunu
                 (float)new double[] { 85, 130, 175, 225, 275 }[SpellManager.E.Level - 1] + 1 * _Player.FlatMagicDamageMod);
         }
 
-        public static float IgniteDmg(Obj_AI_Base target)
-        {
-            return Player.Instance.GetSummonerSpellDamage(target, DamageLibrary.SummonerSpells.Ignite);
-        }
-
         public static void Initialize()
         {
         }
