@@ -40,6 +40,11 @@ namespace NinjaNunu.Modes
             return Player.Instance.Spellbook.IsChanneling || Player.Instance.HasBuff("Absolute Zero");
         }
 
+        protected bool PotionRunning()
+        {
+            return Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask");
+        }
+
         public abstract bool ShouldBeExecuted();
 
         public abstract void Execute();

@@ -50,6 +50,59 @@ namespace NinjaNunu.Modes
                 return;
             }
 
+            //Haker
+
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion)
+            {
+
+                if (PotionRunning())
+                {
+                    return;
+                }
+
+                if (Item.HasItem(HealthPotion.Id) && Item.CanUseItem(HealthPotion.Id))
+                {
+                    HealthPotion.Cast();
+                    return;
+                }
+                if (Item.HasItem(HuntersPotion.Id) && Item.CanUseItem(HuntersPotion.Id))
+                {
+                    HuntersPotion.Cast();
+                    return;
+                }
+                if (Item.HasItem(TotalBiscuit.Id) && Item.CanUseItem(TotalBiscuit.Id))
+                {
+                    TotalBiscuit.Cast();
+                    return;
+                }
+                if (Item.HasItem(RefillablePotion.Id) && Item.CanUseItem(RefillablePotion.Id))
+                {
+                    RefillablePotion.Cast();
+                    return;
+                }
+                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
+                {
+                    CorruptingPotion.Cast();
+                    return;
+                }
+            }
+
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion)
+            {
+                if (PotionRunning())
+                {
+                    return;
+                }
+
+                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
+                {
+                    CorruptingPotion.Cast();
+                    return;
+                }
+            }
+
+            
+
             if (!Smite.IsReady() || !(Config.Smite.SmiteMenu.SmiteToggle) || !(Config.Smite.SmiteMenu.SmiteCombo) || !(Config.Smite.SmiteMenu.SmiteEnemies))
             {
                 return;
@@ -57,7 +110,7 @@ namespace NinjaNunu.Modes
 
             //Red Smite Combo
 
-            if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteduel") && !ChannelingR())
+            if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteduel") && !ChannelingR() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 foreach (
                     var SmiteTarget in
@@ -68,6 +121,8 @@ namespace NinjaNunu.Modes
                     return;
                 }
             }
+
+            
 
             // Blue Smite KS - VodkaSmite
 
@@ -103,47 +158,6 @@ namespace NinjaNunu.Modes
                 if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsOnCooldown && Smite.IsReady() && !ChannelingR())
                 {
                     Smite.Cast(n);
-                    return;
-                }
-            }
-
-            //Haker
-
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !(Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask")))
-            {
-
-                if (Item.HasItem(HealthPotion.Id) && Item.CanUseItem(HealthPotion.Id))
-                {
-                    HealthPotion.Cast();
-                    return;
-                }
-                if (Item.HasItem(HuntersPotion.Id) && Item.CanUseItem(HuntersPotion.Id))
-                {
-                    HuntersPotion.Cast();
-                    return;
-                }
-                if (Item.HasItem(TotalBiscuit.Id) && Item.CanUseItem(TotalBiscuit.Id))
-                {
-                    TotalBiscuit.Cast();
-                    return;
-                }
-                if (Item.HasItem(RefillablePotion.Id) && Item.CanUseItem(RefillablePotion.Id))
-                {
-                    RefillablePotion.Cast();
-                    return;
-                }
-                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
-                {
-                    CorruptingPotion.Cast();
-                    return;
-                }
-            }
-
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion && !(Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask")))
-            {
-                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
-                {
-                    CorruptingPotion.Cast();
                     return;
                 }
             }

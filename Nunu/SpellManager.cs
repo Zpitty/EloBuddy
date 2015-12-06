@@ -14,7 +14,7 @@ namespace NinjaNunu
 
         static SpellManager()
         {
-            Q = new Spell.Targeted(SpellSlot.Q, 300);
+            Q = new Spell.Targeted(SpellSlot.Q, 350);
             W = new Spell.Targeted(SpellSlot.W, 700);
             E = new Spell.Targeted(SpellSlot.E, 550);
             R = new Spell.Active(SpellSlot.R, 650);

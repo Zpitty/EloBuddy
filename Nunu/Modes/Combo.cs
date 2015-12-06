@@ -65,10 +65,7 @@ namespace NinjaNunu.Modes
                     W.Cast(Player.Instance);
                     return;
                 }
-            }
-
-
-            
+            }           
         }
     }
 }
