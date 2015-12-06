@@ -11,7 +11,6 @@ namespace NinjaNunu.Modes
         {
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
         }
-
         public override void Execute()
         {
             if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())

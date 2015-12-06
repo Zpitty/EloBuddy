@@ -20,8 +20,7 @@ namespace NinjaNunu
 
             Modes.Initialize();
             Smite.Initialize();
-            Draw.Initialize();
-            
+            Draw.Initialize();        
         }
 
         public static void Initialize()
@@ -50,10 +49,6 @@ namespace NinjaNunu
                 LastHit.Initialize();
                 Menu.AddSeparator();
                 MiscMenu.Initialize();
-
-
-
-
             }
 
             public static void Initialize()
@@ -97,7 +92,7 @@ namespace NinjaNunu
                     _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
-                    _manaW = Menu.Add("WMana", new Slider("Use W Until % Mana", 40, 0, 100));
+                    _manaW = Menu.Add("WMana", new Slider("Use W Until % Mana", 35));
                     _minR = Menu.Add("minnumberR", new Slider("Min. Enemies for R", 2, 0, 5));
                 }
 
@@ -148,7 +143,7 @@ namespace NinjaNunu
                 {
                     Menu.AddGroupLabel("Harass");
                     _useE = Menu.Add("harassUseE", new CheckBox("Use E"));
-                    _minMana = Menu.Add("harassMana", new Slider("Minimum Mana", 40, 0, 100));
+                    _minMana = Menu.Add("harassMana", new Slider("Use E Until % Mana", 20));
                 }
 
                 public static void Initialize()
@@ -160,10 +155,7 @@ namespace NinjaNunu
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
-                private static readonly Slider _minManaE;
-                private static readonly Slider _minManaW;
-
-
+                private static readonly Slider _minMana;
 
                 public static bool UseQ
                 {
@@ -177,13 +169,9 @@ namespace NinjaNunu
                 {
                     get { return _useE.CurrentValue; }
                 }
-                public static int MinManaE
+                public static int MinMana
                 {
-                    get { return _minManaE.CurrentValue; }
-                }
-                public static int MinManaW
-                {
-                    get { return _minManaW.CurrentValue; }
+                    get { return _minMana.CurrentValue; }
                 }
 
                 static JungleClear()
@@ -192,8 +180,7 @@ namespace NinjaNunu
                     _useQ = Menu.Add("jungleUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("jungleUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("jungleUseE", new CheckBox("Use E"));
-                    _minManaW = Menu.Add("jungleManaW", new Slider("Minimum Mana W", 40, 0, 100));
-                    _minManaE = Menu.Add("jungleManaE", new Slider("Minimum Mana E", 40, 0, 100));
+                    _minMana = Menu.Add("jungleMana", new Slider("Use W/E Until % Mana", 30));
                 }
 
                 public static void Initialize()
@@ -229,7 +216,7 @@ namespace NinjaNunu
                     _useQ = Menu.Add("laneUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("laneUseW", new CheckBox("Use W"));
                     _useE = Menu.Add("laneUseE", new CheckBox("Use E"));
-                    _minMana = Menu.Add("laneMana", new Slider("Use Skills Until % Mana", 40, 0, 100));
+                    _minMana = Menu.Add("laneMana", new Slider("Use Q/W/E Until % Mana", 30));
                 }
                 public static void Initialize()
                 {
@@ -255,7 +242,7 @@ namespace NinjaNunu
                 {
                     Menu.AddGroupLabel("Last Hit");
                     _useE = Menu.Add("lasthitUseE", new CheckBox("Use E to Last Hit"));
-                    _manalasthit = Menu.Add("lasthitmana", new Slider("Use E to Last Hit until % Mana", 20, 0, 100));
+                    _manalasthit = Menu.Add("lasthitmana", new Slider("Use E to Last Hit until % Mana", 20));
                 }
 
                 public static void Initialize()
@@ -268,15 +255,34 @@ namespace NinjaNunu
             public static class MiscMenu
             {
                 private static readonly CheckBox _useautoQ;
+                private static readonly CheckBox _enablePotion;
                 private static readonly Slider _autoQhealth;
+                private static readonly Slider _minHPPotion;
+                private static readonly Slider _minMPPotion;
 
                 public static bool UseAutoQ
                 {
                     get { return _useautoQ.CurrentValue; }
                 }
+
+                public static bool EnablePotion
+                {
+                    get { return _enablePotion.CurrentValue; }
+                }
+
                 public static int AutoQHealth
                 {
                     get { return _autoQhealth.CurrentValue; }
+                }
+
+                public static int MinHPPotion
+                {
+                    get { return _minHPPotion.CurrentValue; }
+                }
+
+                public static int MinMPPotion
+                {
+                    get { return _minMPPotion.CurrentValue; }
                 }
 
 
@@ -284,7 +290,12 @@ namespace NinjaNunu
                 {
                     Menu.AddGroupLabel("Misc");
                     _useautoQ = Menu.Add("autouseQ", new CheckBox("Use Auto Q"));
-                    _autoQhealth = Menu.Add("autoQhealth", new Slider("Auto Q at health percentage", 20, 0, 100));
+                    _autoQhealth = Menu.Add("autoQhealth", new Slider("Auto Q at health percentage", 35));
+                    Menu.AddSeparator();
+                    Menu.AddGroupLabel("Potion Manager");
+                    _enablePotion = Menu.Add("Potion", new CheckBox("Use Potions"));
+                    _minHPPotion = Menu.Add("minHPPotion", new Slider("Use at % Health", 70));
+                    _minMPPotion = Menu.Add("minMPPotion", new Slider("Use at % Mana", 20));
                 }
 
                 public static void Initialize()
@@ -309,8 +320,10 @@ namespace NinjaNunu
 
             public static class SmiteMenu
             {
-                public static readonly CheckBox _smiteEnemies;
+                public static readonly KeyBind _smiteEnemies;
+                public static readonly KeyBind _smiteCombo;
                 private static readonly KeyBind _smiteToggle;
+                private static readonly Slider _redSmitePercent;
 
                 public static Menu MainMenu
                 {
@@ -328,14 +341,26 @@ namespace NinjaNunu
                     get { return _smiteEnemies.CurrentValue; }
                 }
 
+                public static bool SmiteCombo
+                {
+                    get { return _smiteCombo.CurrentValue; }
+                }
+
+                public static int RedSmitePercent
+                {
+                    get { return _redSmitePercent.CurrentValue; }
+                }
+
                 static SmiteMenu()
                 {
                     SMenu.AddGroupLabel("Smite Options");
                     SMenu.AddSeparator();
-                    _smiteToggle = SMenu.Add("EnableSmite", new KeyBind("Enable Smite (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
-                    _smiteEnemies = SMenu.Add("EnableSmiteEnemies", new CheckBox("Use Blue Smite to KS"));
+                    _smiteToggle = SMenu.Add("EnableSmite", new KeyBind("Enable Smite Monsters (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteEnemies = SMenu.Add("EnableSmiteEnemies", new KeyBind("Blue Smite KS (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteCombo = SMenu.Add("EnableSmiteCombo", new KeyBind("Red Smite Combo (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _redSmitePercent = SMenu.Add("SmiteRedPercent", new Slider("Red Smite Enemy % HP", 60));
                     SMenu.AddSeparator();
-                    SMenu.AddGroupLabel("Smiteable Monsters");
+                    SMenu.AddGroupLabel("Smite-able Monsters");
                     SMenu.Add("SRU_Baron", new CheckBox("Baron"));
                     SMenu.Add("SRU_Dragon", new CheckBox("Dragon"));
                     SMenu.Add("SRU_Red", new CheckBox("Red"));

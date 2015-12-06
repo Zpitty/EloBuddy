@@ -18,7 +18,7 @@ namespace NinjaNunu.Modes
         {
             if (Settings.UseQ && Q.IsReady())
             {
-                var Jmonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);
+                var Jmonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 300);
                 //if (Damage.QDamage(Jmonsters) > Jmonsters.Health)
                 if (Jmonsters.Health <= Damage.QDamage(Jmonsters))
                 {
@@ -27,9 +27,9 @@ namespace NinjaNunu.Modes
                 }
             }
 
-            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaE || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())
+            if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())
             {
-                var Emonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 1300);
+                var Emonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= E.Range);
                 if (Emonsters != null)
                 {
                     E.Cast(Emonsters);
@@ -37,7 +37,7 @@ namespace NinjaNunu.Modes
                 }
             }
 
-            if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinManaW)
+            if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
                 var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 1000);
                 if (ally != null)

@@ -15,11 +15,10 @@ namespace NinjaNunu.Modes
         public override void Execute()
         {
 
-
             if (ChannelingR())  //WujuSan
             {
-                var TargetR = TargetSelector.GetTarget(1000, DamageType.Magical);
-                if (EntityManager.Heroes.Enemies.Count(h => h.IsValidTarget(575)) < 1) //Considering that when you started to cast R there was MinR enemies in your range
+                var TargetR = TargetSelector.GetTarget(R.Range, DamageType.Magical);
+                if (Player.Instance.CountEnemiesInRange(575) < Settings.MinR) //Considering that when you started to cast R there was MinR enemies in your range
                 {
                     //for ensure that Nunu will cancel his ult, you need to make Nunu move
 
@@ -31,7 +30,7 @@ namespace NinjaNunu.Modes
 
             if (Settings.UseR && R.IsReady())
             {
-                if (EntityManager.Heroes.Enemies.Count(h => h.IsValidTarget(325)) >= Settings.MinR)
+                if (EntityManager.Heroes.Enemies.Count(h => h.IsValidTarget(300)) >= Settings.MinR)
                 {
                     Orbwalker.DisableAttacking = true;
                     Orbwalker.DisableMovement = true;
@@ -41,7 +40,7 @@ namespace NinjaNunu.Modes
 
             }
 
-            
+
 
             if (Settings.UseE && E.IsReady() && !ChannelingR())
             {
@@ -67,6 +66,9 @@ namespace NinjaNunu.Modes
                     return;
                 }
             }
+
+
+            
         }
     }
 }

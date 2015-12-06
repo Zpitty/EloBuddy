@@ -13,18 +13,7 @@ namespace NinjaNunu.Modes
         }
 
         public override void Execute()
-        {
-
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
-            {
-                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
-                if (Lmonsters != null)
-                {
-                    Q.Cast(Lmonsters);
-                    return;
-                }
-            }
-
+        {           
             if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Player.Instance.HasBuff("Visions") && Settings.UseE && E.IsReady())
             {
                 var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
@@ -33,8 +22,8 @@ namespace NinjaNunu.Modes
                     E.Cast(Lmonsters);
                     return;
                 }
-            }
-
+            } 
+          
             if (Settings.UseW && W.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
             {
                 var ally = EntityManager.Heroes.Allies.OrderByDescending(a => a.TotalAttackDamage).FirstOrDefault(b => b.Distance(Player.Instance) < 1000);
@@ -46,6 +35,16 @@ namespace NinjaNunu.Modes
                 if (Settings.UseW && W.IsReady() && Player.Instance.CountEnemiesInRange(1500) > 0)
                 {
                     W.Cast(Player.Instance);
+                    return;
+                }
+            }
+
+            if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana)
+            {
+                var Lmonsters = EntityManager.MinionsAndMonsters.GetLaneMinions().OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) < 1300);
+                if (Lmonsters != null)
+                {
+                    Q.Cast(Lmonsters);
                     return;
                 }
             }

@@ -11,7 +11,6 @@ namespace NinjaNunu.Modes
         {
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit);
         }
-
         public override void Execute()
         {
             if (Settings.UseE && E.IsReady() && Player.Instance.ManaPercent >= Settings.ManaLastHit)

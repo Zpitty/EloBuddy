@@ -9,14 +9,17 @@ namespace NinjaNunu.Modes
         {
             get { return SpellManager.Q; }
         }
+
         protected Spell.Targeted W
         {
             get { return SpellManager.W; }
         }
+
         protected Spell.Targeted E
         {
             get { return SpellManager.E; }
         }
+
         protected Spell.Active R
         {
             get { return SpellManager.R; }
@@ -34,7 +37,7 @@ namespace NinjaNunu.Modes
 
         protected bool ChannelingR()
         {
-            return Player.Instance.Spellbook.IsChanneling;
+            return Player.Instance.Spellbook.IsChanneling || Player.Instance.HasBuff("Absolute Zero");
         }
 
         public abstract bool ShouldBeExecuted();
