@@ -255,6 +255,7 @@ namespace NinjaNunu
             public static class MiscMenu
             {
                 private static readonly CheckBox _useautoQ;
+                private static readonly CheckBox _igniteKS;
                 private static readonly CheckBox _enablePotion;
                 private static readonly Slider _autoQhealth;
                 private static readonly Slider _minHPPotion;
@@ -263,6 +264,11 @@ namespace NinjaNunu
                 public static bool UseAutoQ
                 {
                     get { return _useautoQ.CurrentValue; }
+                }
+
+                public static bool IgniteKS
+                {
+                    get { return _igniteKS.CurrentValue; }
                 }
 
                 public static bool EnablePotion
@@ -290,11 +296,12 @@ namespace NinjaNunu
                 {
                     Menu.AddGroupLabel("Misc");
                     _useautoQ = Menu.Add("autouseQ", new CheckBox("Use Auto Q"));
+                    _igniteKS = Menu.Add("KSIgnite", new CheckBox("Use Ignite to KS"));
                     _autoQhealth = Menu.Add("autoQhealth", new Slider("Auto Q at health percentage", 35));
                     Menu.AddSeparator();
                     Menu.AddGroupLabel("Potion Manager");
                     _enablePotion = Menu.Add("Potion", new CheckBox("Use Potions"));
-                    _minHPPotion = Menu.Add("minHPPotion", new Slider("Use at % Health", 70));
+                    _minHPPotion = Menu.Add("minHPPotion", new Slider("Use at % Health", 60));
                     _minMPPotion = Menu.Add("minMPPotion", new Slider("Use at % Mana", 20));
                 }
 
