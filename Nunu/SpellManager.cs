@@ -1,6 +1,7 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using System.Linq;
+using System;
 
 namespace NinjaNunu
 {
@@ -11,6 +12,10 @@ namespace NinjaNunu
         public static Spell.Targeted E { get; private set; }
         public static Spell.Active R { get; private set; }
         public static Spell.Targeted Smite { get; private set; }
+
+        public static Spell.Targeted Ignite { get; private set; }
+
+        
 
         static SpellManager()
         {
@@ -30,6 +35,15 @@ namespace NinjaNunu
             {
                 Smite = new Spell.Targeted(SpellSlot.Summoner2, 570);
             }
+
+            if (Player.Instance.Spellbook.GetSpell(SpellSlot.Summoner1).Name.Equals("summonerdot", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Ignite = new Spell.Targeted(SpellSlot.Summoner1, 600);
+            }
+            if (Player.Instance.Spellbook.GetSpell(SpellSlot.Summoner2).Name.Equals("summonerdot", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Ignite = new Spell.Targeted(SpellSlot.Summoner2, 600);
+            }
         }
 
         public static void Initialize()
@@ -41,6 +55,11 @@ namespace NinjaNunu
         public static bool HasSmite()
         {
             return Smite != null && Smite.IsLearned;
+        }
+
+        public static bool HasIgnite()
+        {
+            return Ignite != null;
         }
     }
 }

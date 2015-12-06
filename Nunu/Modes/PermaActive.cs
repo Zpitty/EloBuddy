@@ -41,25 +41,12 @@ namespace NinjaNunu.Modes
                 Orbwalker.DisableMovement = false;
             }
 
-            //AutoQ - NidaleeBuddy
-
-            var target = EntityManager.MinionsAndMonsters.Combined.OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 200);
-            if (Settings.UseAutoQ && Q.IsReady() && Player.Instance.HealthPercent <= Settings.AutoQHealth && !ChannelingR())
-            {
-                Q.Cast(target);
-                return;
-            }
+            #region Potion
 
             //Haker
 
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion)
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !PotionRunning())
             {
-
-                if (PotionRunning())
-                {
-                    return;
-                }
-
                 if (Item.HasItem(HealthPotion.Id) && Item.CanUseItem(HealthPotion.Id))
                 {
                     HealthPotion.Cast();
@@ -86,14 +73,9 @@ namespace NinjaNunu.Modes
                     return;
                 }
             }
-
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion)
+            
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion && !PotionRunning())
             {
-                if (PotionRunning())
-                {
-                    return;
-                }
-
                 if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
                 {
                     CorruptingPotion.Cast();
@@ -101,7 +83,29 @@ namespace NinjaNunu.Modes
                 }
             }
 
-            
+            #endregion
+
+            //AutoQ - NidaleeBuddy
+            var target = EntityManager.MinionsAndMonsters.Combined.OrderByDescending(a => a.MaxHealth).FirstOrDefault(b => b.Distance(Player.Instance) <= 220);
+            if (target != null && Settings.UseAutoQ && Q.IsReady() && Player.Instance.HealthPercent <= Settings.AutoQHealth && !ChannelingR())
+            {
+                Q.Cast(target);
+                return;
+            }
+
+            // Ignite KS
+
+            if (Settings.IgniteKS && HasIgnite && SpellManager.Ignite.IsReady())
+            {
+                var IgniteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Damage.IgniteDmg(e));
+                if (IgniteKS != null)
+                {
+                    SpellManager.Ignite.Cast(IgniteKS);
+                    return;
+                }
+            }
+
+            #region Smite
 
             if (!Smite.IsReady() || !(Config.Smite.SmiteMenu.SmiteToggle) || !(Config.Smite.SmiteMenu.SmiteCombo) || !(Config.Smite.SmiteMenu.SmiteEnemies))
             {
@@ -128,13 +132,15 @@ namespace NinjaNunu.Modes
 
             if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker") && !ChannelingR())
             {
-                var enemy = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
-                if (enemy != null)
+                var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
+                if (SmiteKS != null)
                 {
-                    Smite.Cast(enemy);
+                    Smite.Cast(SmiteKS);
                     return;
                 }
             }
+
+
 
             // Consume + Smite - VodkaSmite
             var monsters =
@@ -161,6 +167,10 @@ namespace NinjaNunu.Modes
                     return;
                 }
             }
+
+            #endregion
+
+
         }
     }
 }
