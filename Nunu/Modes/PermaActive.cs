@@ -45,7 +45,7 @@ namespace NinjaNunu.Modes
 
             //Haker
 
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !PotionRunning())
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !PotionRunning() && !ChannelingR())
             {
                 if (Item.HasItem(HealthPotion.Id) && Item.CanUseItem(HealthPotion.Id))
                 {
@@ -74,7 +74,7 @@ namespace NinjaNunu.Modes
                 }
             }
             
-            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion && !PotionRunning())
+            if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion && !PotionRunning() && !ChannelingR())
             {
                 if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
                 {
@@ -95,7 +95,7 @@ namespace NinjaNunu.Modes
 
             // Ignite KS
 
-            if (Settings.IgniteKS && HasIgnite && SpellManager.Ignite.IsReady())
+            if (Settings.IgniteKS && HasIgnite && SpellManager.Ignite.IsReady() && !ChannelingR())
             {
                 var IgniteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Damage.IgniteDmg(e));
                 if (IgniteKS != null)
