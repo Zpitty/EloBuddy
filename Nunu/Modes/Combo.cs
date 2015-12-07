@@ -45,7 +45,7 @@ namespace NinjaNunu.Modes
             if (Settings.UseE && E.IsReady() && !ChannelingR())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);
-                if (target != null)
+                if (target != null && !target.HasBuffOfType(BuffType.Invulnerability))
                 {
                     E.Cast(target);
                     return;
