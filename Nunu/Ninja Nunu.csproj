@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ModeManager.cs" />
     <Compile Include="Damage.cs" />

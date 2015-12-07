@@ -17,6 +17,7 @@ namespace NinjaNunu
         {
             Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
             Menu.AddGroupLabel("Nunu By Zpitty");
+            Menu.AddLabel("Please Report any Bugs/Suggestions to the Forum Post!");
 
             Modes.Initialize();
             Smite.Initialize();
@@ -255,6 +256,7 @@ namespace NinjaNunu
             public static class MiscMenu
             {
                 private static readonly CheckBox _useautoQ;
+                private static readonly CheckBox _gapcloseE;
                 private static readonly CheckBox _igniteKS;
                 private static readonly CheckBox _enablePotion;
                 private static readonly Slider _autoQhealth;
@@ -264,6 +266,11 @@ namespace NinjaNunu
                 public static bool UseAutoQ
                 {
                     get { return _useautoQ.CurrentValue; }
+                }
+
+                public static bool GapcloseE
+                {
+                    get { return _gapcloseE.CurrentValue; }
                 }
 
                 public static bool IgniteKS
@@ -296,6 +303,7 @@ namespace NinjaNunu
                 {
                     Menu.AddGroupLabel("Misc");
                     _useautoQ = Menu.Add("autouseQ", new CheckBox("Use Auto Q"));
+                    _gapcloseE = Menu.Add("gapcloseE", new CheckBox("Use E on Enemy Gapcloser"));
                     _igniteKS = Menu.Add("KSIgnite", new CheckBox("Use Ignite to KS"));
                     _autoQhealth = Menu.Add("autoQhealth", new Slider("Auto Q at health percentage", 35));
                     Menu.AddSeparator();
