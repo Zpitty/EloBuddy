@@ -116,7 +116,7 @@ namespace Rammus.Modes
                     .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e));
             foreach (var n in monsters2)
             {
-                if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Q.IsOnCooldown && Smite.IsReady())
+                if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Smite.IsReady())
                 {
                     Smite.Cast(n);
                     return;
