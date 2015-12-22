@@ -44,6 +44,10 @@ namespace Rammus.Modes
 
         public static void GankButton()
         {
+            if (Player.Instance.HasBuff("Powerball"))
+            {
+                return;
+            }
             EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             var target = TargetSelector.GetTarget(2000, DamageType.Magical);
             if (target != null)
