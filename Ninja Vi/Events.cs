@@ -68,7 +68,7 @@ namespace Vi
 
         private static void OnDraw(EventArgs args)
         {
-            if (Config.Draw.DMenu["QDraw"].Cast<CheckBox>().CurrentValue)
+            if (Config.Draw.DMenu["QDraw"].Cast<CheckBox>().CurrentValue && SpellManager.Q.IsLearned)
             {
                 Circle.Draw(Color.Green, 725, Player.Instance.Position);
             }
@@ -78,12 +78,12 @@ namespace Vi
                 Circle.Draw(Color.Red, SpellManager.W.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["EDraw"].Cast<CheckBox>().CurrentValue)
+            if (Config.Draw.DMenu["EDraw"].Cast<CheckBox>().CurrentValue && SpellManager.E.IsLearned)
             {
                 Circle.Draw(Color.LightBlue, SpellManager.E.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["RDraw"].Cast<CheckBox>().CurrentValue)
+            if (Config.Draw.DMenu["RDraw"].Cast<CheckBox>().CurrentValue && SpellManager.R.IsLearned)
             {
                 Circle.Draw(Color.DarkBlue, SpellManager.R.Range, Player.Instance.Position);
             }
