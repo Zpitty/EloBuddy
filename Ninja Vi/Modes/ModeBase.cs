@@ -116,7 +116,7 @@ namespace Vi.Modes
         {
             EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
 
-            var target = TargetSelector.GetTarget(SpellManager.Q.MaximumRange, DamageType.Physical);
+            var target = TargetSelector.GetTarget(SpellManager.Q.MaximumRange + 300, DamageType.Physical);
             if (SpellManager.Q.IsReady() && target != null)
             {
                 if (SpellManager.Q.IsCharging)
