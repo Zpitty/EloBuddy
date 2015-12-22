@@ -18,7 +18,7 @@ namespace Vi.Modes
 
         public override void Execute()
         {
-            var target = TargetSelector.GetTarget(Q.MaximumRange, DamageType.Physical);
+            var target = TargetSelector.GetTarget(Q.MaximumRange + 300, DamageType.Physical);
             if (Settings.UseQ && Q.IsReady() && target != null)
             {
                 if (Q.IsCharging)

@@ -15,21 +15,16 @@ namespace Vi.Modes
         {
             if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Q.IsCharging)
             {
-                var dragon = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Q.MaximumRange)
-                    .Where(e => !e.IsDead && e.Health > 0 && e.IsVisible && e.IsValidTarget() && SmiteDamage.IMportantMonsters.Contains(e.BaseSkinName));
+                var dragon = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Q.MaximumRange + 200)
+                    .Where(e => !e.IsDead && e.Health > 0 && e.IsVisible && SmiteDamage.IMportantMonsters.Contains(e.BaseSkinName));
                 var dragonline = EntityManager.MinionsAndMonsters.GetLineFarmLocation(dragon, Q.Width, (int)Q.MaximumRange);
-                //if (dragon == null)
-                //{
-                //    return;
-                //}
-
                 if (Q.IsCharging && Q.IsFullyCharged && dragonline.CastPosition.IsValid())
                 {
                     Q.Cast(dragonline.CastPosition);
                     return;
                 }
 
-                else if (dragonline.HitNumber > 0)
+                else if (dragon.Count() > 0)
                 {
                     Q.StartCharging();
                     return;
@@ -39,14 +34,9 @@ namespace Vi.Modes
 
             if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.MinMana || Q.IsCharging)
             {
-                var MinionsQ = EntityManager.MinionsAndMonsters.GetJungleMonsters().Where(a => a.IsInRange(Player.Instance.ServerPosition, Q.MaximumRange)).OrderByDescending(e => e.MaxHealth);
-                var Qfarm = EntityManager.MinionsAndMonsters.GetLineFarmLocation(MinionsQ, 100, (int)Q.MaximumRange);
+                var MinionsQ = EntityManager.MinionsAndMonsters.GetJungleMonsters().Where(a => a.IsInRange(Player.Instance.ServerPosition, Q.MaximumRange + 200)).OrderByDescending(e => e.MaxHealth);
+                var Qfarm = EntityManager.MinionsAndMonsters.GetLineFarmLocation(MinionsQ, Q.Width, (int)Q.MaximumRange);
                 
-
-                //if (MinionsQ == null)
-                //{
-                //    return;
-                //}
 
                 if (Q.IsCharging && Q.IsFullyCharged && Qfarm.CastPosition.IsValid())
                 {
@@ -54,7 +44,7 @@ namespace Vi.Modes
                     return;
                 }
 
-                else if (Qfarm.HitNumber >= 2)
+                else if (MinionsQ.Count() > 1)
                 {
                     Q.StartCharging();
                     return;
