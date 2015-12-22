@@ -42,6 +42,17 @@ namespace Rammus.Modes
             return Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask");
         }
 
+        public static void GankButton()
+        {
+            EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+            var target = TargetSelector.GetTarget(2000, DamageType.Magical);
+            if (target != null)
+            {
+                SpellManager.Q.Cast();
+                return;
+            }
+        }
+
         public abstract bool ShouldBeExecuted();
 
         public abstract void Execute();

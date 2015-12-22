@@ -96,6 +96,7 @@ namespace Rammus
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
                     _minR = Menu.Add("MinEnemiesR", new Slider("Minimium Enemies for R", 2, 0, 5));
+                    Menu.Add("gankbutton", new KeyBind("Gank - (Hold)", false, KeyBind.BindTypes.HoldActive, 'Z'));
                     Menu.AddLabel("Use E on:");
                     if (EntityManager.Heroes.Enemies.Count > 0)
                     {

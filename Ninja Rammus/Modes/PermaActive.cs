@@ -31,6 +31,12 @@ namespace Rammus.Modes
 
         public override void Execute()
         {
+            if (Config.Modes.Combo.MainMenu["gankbutton"].Cast<KeyBind>().CurrentValue)
+            {
+                GankButton();
+                return;
+            }
+
             #region Potion
 
             //Haker

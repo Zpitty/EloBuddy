@@ -34,12 +34,7 @@ namespace Rammus.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(2000, DamageType.Magical);
-                if (target.HasBuffOfType(BuffType.Taunt))
-                {
-                    return;
-                }
-                
-                if (target != null)
+                if (target != null && !target.HasBuffOfType(BuffType.Taunt))
                 {
                     Q.Cast();
                     return;
