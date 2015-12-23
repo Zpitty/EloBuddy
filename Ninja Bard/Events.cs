@@ -57,15 +57,15 @@ namespace Bard
 
         private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            var m = target as Obj_AI_Minion;
-            var alliesNearPlayer = EntityManager.Heroes.Allies.Count(a => Player.Instance.Distance(a) <= Player.Instance.AttackRange);
+            var a = target as Obj_AI_Minion;
+            var allys = EntityManager.Heroes.Allies.Count(c => Player.Instance.Distance(c) <= Player.Instance.AttackRange);
 
-            if (m == null)
+            if (a == null)
             {
                 return;
             }
 
-            if (alliesNearPlayer < 1)
+            if (allys < 1)
             {
                 return;
             }
