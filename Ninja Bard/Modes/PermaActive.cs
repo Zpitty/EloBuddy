@@ -117,17 +117,17 @@ namespace Bard.Modes
                     return;
                 }
 
-                if (Settings.UseW && _Bard.HealthPercent <= Settings.WHeal && _Bard.ManaPercent > Settings.WMana)
-                {
-                    W.Cast(_Bard);
-                    return;
-                }
-
                 var ally = EntityManager.Heroes.Allies.Where(a => a.IsValidTarget(W.Range) && a.HealthPercent <= Settings.WHeal).OrderBy(a => a.Health).FirstOrDefault();
                 if (Settings.UseW && ally != null && _Bard.ManaPercent > Settings.WMana && !ally.IsRecalling() && !ally.IsInShopRange())
                 {
                     var prediction = W.GetPrediction(ally);
                     W.Cast(prediction.UnitPosition);
+                    return;
+                }
+
+                if (Settings.UseW && _Bard.HealthPercent <= Settings.WHeal && _Bard.ManaPercent > Settings.WMana)
+                {
+                    W.Cast(_Bard);
                     return;
                 }
             }
