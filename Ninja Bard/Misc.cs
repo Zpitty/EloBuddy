@@ -14,29 +14,48 @@ namespace Bard
 {
     public static class Misc
     {
+        public static List<Vector2> Points = new List<Vector2>();
 
         public static AIHeroClient _Bard
         {
             get { return ObjectManager.Player; }
         }
 
-        public static bool WallBangable(AIHeroClient wallbanged)
+        //fluxy
+
+        public static bool WallBangable(this AIHeroClient hero, Vector2 pos = new Vector2())
         {
-            var predictionQ = Prediction.Position.PredictUnitPosition(wallbanged, 250);
+            if (hero.HasBuffOfType(BuffType.SpellImmunity) || hero.HasBuffOfType(BuffType.SpellShield)) return false;
+            var Qprediction = SpellManager.Q.GetPrediction(hero);
+            var Qpredlist = pos.IsValid() ? new List<Vector3>() { pos.To3D() } : new List<Vector3>
+                        {
+                            hero.ServerPosition,
+                            hero.Position,
+                            Qprediction.CastPosition,
+                            Qprediction.UnitPosition
+                        };
 
-            var position = _Bard.Position.Extend(wallbanged.Position, _Bard.Distance(wallbanged)).To3D();
-            var predictedposition = _Bard.Position.Extend(predictionQ, _Bard.Distance(wallbanged)).To3D();
-            for (int i = 0; i < 450; i += (int)wallbanged.BoundingRadius)
+            var bangableWalls = 0;
+            Points = new List<Vector2>();
+            foreach (var position in Qpredlist)
             {
-                var bPos = _Bard.Position.Extend(position, _Bard.Distance(position) + i).To3D();
-                var bPredPos = _Bard.Position.Extend(predictedposition, _Bard.Distance(predictedposition) + i).To3D();
-
-                if (bPredPos.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || bPredPos.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building) || bPos.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || bPos.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building))
+                for (var i = 0; i < Config.Modes.Combo.QBindDistance; i += (int)hero.BoundingRadius)
                 {
-                    return true;
+                    var cPos = _Bard.Position.Extend(position, _Bard.Distance(position) + i).To3D();
+                    Points.Add(cPos.To2D());
+                    if (NavMesh.GetCollisionFlags(cPos).HasFlag(CollisionFlags.Wall) || NavMesh.GetCollisionFlags(cPos).HasFlag(CollisionFlags.Building))
+                    {
+                        bangableWalls++;
+                        break;
+                    }
                 }
             }
-            return false;            
+            if ((bangableWalls / Qpredlist.Count) >= Config.Modes.Combo.QAccuracyPercent / 100f)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static float IgniteDmg(Obj_AI_Base target)

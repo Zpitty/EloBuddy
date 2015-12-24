@@ -49,16 +49,29 @@ namespace Bard
             public static class Combo
             {
                 private static readonly CheckBox _useQ;
+                private static readonly Slider _qBindDistance;
+                private static readonly Slider _qAccuracyPercent;
 
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
                 }
 
+                public static int QBindDistance
+                {
+                    get { return _qBindDistance.CurrentValue; }
+                }
+
+                public static int QAccuracyPercent
+                {
+                    get { return _qAccuracyPercent.CurrentValue; }
+                }
                 static Combo()
                 {
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q to Stun"));
+                    _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 400, 100, 450));
+                    _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80, 0, 100));
                 }
 
                 public static void Initialize()
@@ -96,6 +109,8 @@ namespace Bard
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useQKS;
                 private static readonly CheckBox _RInterrupt;
+                private static readonly CheckBox _qGapcloser;
+                private static readonly Slider _rInterruptDelay;
                 private static readonly Slider _wMana;
                 private static readonly Slider _minHPPotion;
                 private static readonly Slider _minMPPotion;
@@ -125,6 +140,10 @@ namespace Bard
                     get { return _RInterrupt.CurrentValue; }
                 }
 
+                public static bool QGapcloser
+                {
+                    get { return _qGapcloser.CurrentValue; }
+                }
                 public static int WMana
                 {
                     get { return _wMana.CurrentValue; }
@@ -133,6 +152,11 @@ namespace Bard
                 public static int MinHPPotion
                 {
                     get { return _minHPPotion.CurrentValue; }
+                }
+
+                public static int RInterruptDelay
+                {
+                    get { return _rInterruptDelay.CurrentValue; }
                 }
 
                 public static int WHeal
@@ -155,6 +179,9 @@ namespace Bard
                 {
                     Menu.AddGroupLabel("Misc");
                     _RInterrupt = Menu.Add("InterruptR", new CheckBox("Use R to interrupt"));
+                    _qGapcloser = Menu.Add("GapcloseQ", new CheckBox("Use Q on gapcloser"));
+                    _rInterruptDelay = Menu.Add("InterruptRDelay", new Slider("R Interrupt Delay (ms)", 500, 0, 1000));
+                    Menu.AddSeparator();
                     _useQKS = Menu.Add("QKS", new CheckBox("Use Q to KS"));
                     _useW = Menu.Add("WUse", new CheckBox("Auto use W to heal Self/Ally"));
                     _disableMAA = Menu.Add("disablemAA", new CheckBox("Don't Auto Attack Minions"));

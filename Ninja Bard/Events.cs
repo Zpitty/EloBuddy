@@ -17,6 +17,7 @@ namespace Bard
         static Events()
         {
             Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
+            Gapcloser.OnGapcloser += OnGapCloser;
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Drawing.OnDraw += OnDraw;
         }
@@ -46,14 +47,37 @@ namespace Bard
             }
         }
 
-        private static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender,
-            Interrupter.InterruptableSpellEventArgs e)
+        public static void OnGapCloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
-            if (Settings.RInterrupt && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy)
+            if (sender == null || sender.IsAlly || !Config.Modes.Misc.QGapcloser)
             {
-                SpellManager.R.Cast(sender);
+                return;
+            }
+            var gapclosepred = SpellManager.Q.GetPrediction(sender);
+            if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+            {
+                SpellManager.Q.Cast(gapclosepred.CastPosition);
             }
         }
+
+        private static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
+        {
+            if (sender == null || sender.IsAlly || !Config.Modes.Misc.RInterrupt)
+            {
+                return;
+            }
+            Core.DelayAction(delegate()
+            {
+                if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy) SpellManager.R.Cast(sender);
+            }, Config.Modes.Misc.RInterruptDelay);
+
+
+            //if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy)
+            //{
+            //    SpellManager.R.Cast(sender);
+            //}
+        }
+
 
         private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
