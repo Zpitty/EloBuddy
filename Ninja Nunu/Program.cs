@@ -29,6 +29,8 @@ namespace NinjaNunu
             SmiteDamage.Initialize();
             Damage.Initialize();
             Events.Initialize();
+
+            Chat.Print("Ninja Nunu Loaded - Have a Great Game!");
         }
     }
 }

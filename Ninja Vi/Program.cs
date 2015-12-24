@@ -27,6 +27,8 @@ namespace Vi
             ModeManager.Initialize();
             Events.Initialize();
             Damage.Initialize();
+
+            Chat.Print("Ninja Vi Loaded - Have a Great Game!");
             
         }
     }

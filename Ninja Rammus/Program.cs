@@ -31,6 +31,8 @@ namespace Rammus
             ModeManager.Initialize();
             SmiteDamage.Initialize();
             Events.Initialize();
+
+            Chat.Print("Ninja Rammus Loaded - Have a Great Game!");
         }
     }
 }
