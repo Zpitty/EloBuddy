@@ -66,7 +66,7 @@ namespace Bard
                 {
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q to Stun"));
-                    _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 300, 100, 350));
+                    _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 300, 100, 450));
                     _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80, 0, 100));
                 }
 
