@@ -43,15 +43,21 @@ namespace Bard.Modes
                     return;
                 }
 
-                else if (predictionQ.HitChance == HitChance.Collision)
-                {
-                    var collisionQ = predictionQ.CollisionObjects;
-                    if (collisionQ.Count() == 1)
-                    {
-                        Q.Cast(predictionQ.CastPosition);
-                        return;
-                    }
+                //else if (predictionQ.HitChance == HitChance.Collision)
+                //{
+                //    var collisionQ = predictionQ.CollisionObjects;
+                //    if (collisionQ.Count() == 1)
+                //    {
+                //        Q.Cast(predictionQ.CastPosition);
+                //        return;
+                //    }
 
+                //}
+
+                else if (predictionQ.CollisionObjects.Count() == 1)
+                {
+                    Q.Cast(predictionQ.CastPosition);
+                    return;
                 }
 
             }

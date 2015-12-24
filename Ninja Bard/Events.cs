@@ -45,6 +45,11 @@ namespace Bard
             {
                 Circle.Draw(Color.DarkBlue, SpellManager.R.Range, Player.Instance.Position);
             }
+
+            if (Config.Draw.DMenu["SmiteDraw"].Cast<CheckBox>().CurrentValue && SpellManager.HasSmite())
+            {
+                Circle.Draw(Color.Purple, SpellManager.Smite.Range, Player.Instance.Position);
+            }
         }
 
         public static void OnGapCloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
@@ -54,7 +59,7 @@ namespace Bard
                 return;
             }
             var gapclosepred = SpellManager.Q.GetPrediction(sender);
-            if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+            if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender) && e.End.Distance(Player.Instance) <= 300)
             {
                 SpellManager.Q.Cast(gapclosepred.CastPosition);
             }

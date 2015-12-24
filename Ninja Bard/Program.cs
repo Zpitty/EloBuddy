@@ -26,6 +26,7 @@ namespace Bard
             Events.Initialize();
             Misc.Initialize();
             ModeManager.Initialize();
+            SmiteDamage.Initialize();
             SpellManager.Initialize();
 
             Chat.Print("Ninja Bard Loaded - Have a Great Game!");

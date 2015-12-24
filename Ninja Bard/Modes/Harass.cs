@@ -17,9 +17,10 @@ namespace Bard.Modes
 
             if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.ManaQ)
             {
+                
                 var targetq = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 var qprediction = Q.GetPrediction(targetq);
-                if (qprediction.HitChance >= HitChance.Medium)
+                if (qprediction.HitChance >= HitChance.High)
                 {
                     Q.Cast(qprediction.CastPosition);
                     return;

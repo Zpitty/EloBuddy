@@ -22,7 +22,6 @@ namespace Bard
         }
 
         //fluxy
-
         public static bool WallBangable(this AIHeroClient hero, Vector2 pos = new Vector2())
         {
             if (hero.HasBuffOfType(BuffType.SpellImmunity) || hero.HasBuffOfType(BuffType.SpellShield)) return false;

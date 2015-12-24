@@ -86,28 +86,6 @@ namespace Bard.Modes
 
             #endregion
 
-            //Q KS
-
-            if (Settings.UseQKS && Q.IsReady())
-            {
-                foreach (
-                var target in
-                    EntityManager.Heroes.Enemies.Where(
-                        hero =>
-                            hero.IsValidTarget(Q.Range) && !hero.IsDead && !hero.IsZombie && hero.HealthPercent <= 25))
-                {
-                    var predictionQ = Q.GetPrediction(target);
-                    if (target.Health + target.TotalShieldHealth() < ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q))
-                    {
-                        if (predictionQ.HitChance >= HitChance.High)
-                        {
-                            Q.Cast(predictionQ.CastPosition);
-                            return;
-                        }
-                    }
-                }
-            }
-
             #region W Logic
 
             if (W.IsReady())
@@ -134,7 +112,31 @@ namespace Bard.Modes
 
             #endregion
 
-            
+            //Q KS
+
+            if (Settings.UseQKS && Q.IsReady())
+            {
+                foreach (
+                var target in
+                    EntityManager.Heroes.Enemies.Where(
+                        hero =>
+                            hero.IsValidTarget(Q.Range) && !hero.IsDead && !hero.IsZombie && hero.HealthPercent <= 25))
+                {
+                    var predictionQ = Q.GetPrediction(target);
+                    if (target.Health + target.TotalShieldHealth() < ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q))
+                    {
+                        if (predictionQ.HitChance >= HitChance.High)
+                        {
+                            Q.Cast(predictionQ.CastPosition);
+                            return;
+                        }
+                    }
+                }
+            }
+
+
+
+
 
             //Ignite KS
 
@@ -147,6 +149,58 @@ namespace Bard.Modes
                     return;
                 }
             }
+
+            #region Smite
+
+            if (!Smite.IsReady() || !Config.Smite.SmiteMenu.SmiteToggle || !Config.Smite.SmiteMenu.SmiteCombo || !Config.Smite.SmiteMenu.SmiteEnemies)
+            {
+                return;
+            }
+
+            //Red Smite Combo
+
+            if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+            {
+                foreach (
+                    var SmiteTarget in
+                        EntityManager.Heroes.Enemies
+                            .Where(h => h.IsValidTarget(Smite.Range)).Where(h => h.HealthPercent <= Config.Smite.SmiteMenu.RedSmitePercent).OrderByDescending(TargetSelector.GetPriority))
+                {
+                    Smite.Cast(SmiteTarget);
+                    return;
+                }
+            }
+
+
+
+            // Blue Smite KS - VodkaSmite
+
+            if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker"))
+            {
+                var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
+                if (SmiteKS != null)
+                {
+                    Smite.Cast(SmiteKS);
+                    return;
+                }
+            }
+
+            // Smite Monsters - VodkaSmite
+            var monsters2 =
+                EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
+                    .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e));
+            foreach (var n in monsters2)
+            {
+                if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue && Smite.IsReady())
+                {
+                    Smite.Cast(n);
+                    return;
+                }
+            }
+
+            #endregion          
+
+           
         }
     }
 }

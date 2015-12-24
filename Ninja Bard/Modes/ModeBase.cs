@@ -31,6 +31,16 @@ namespace Bard.Modes
             get { return SpellManager.R; }
         }
 
+        protected Spell.Targeted Smite
+        {
+            get { return SpellManager.Smite; }
+        }
+
+        protected bool HasSmite
+        {
+            get { return SpellManager.HasSmite(); }
+        }
+
         protected bool HasIgnite
         {
             get { return SpellManager.HasIgnite(); }

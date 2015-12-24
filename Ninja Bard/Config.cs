@@ -16,6 +16,7 @@ namespace Bard
             Menu.AddLabel("Please Report any Bugs/Suggestions to the Forum Post!");
 
             Modes.Initialize();
+            Smite.Initialize();
             Draw.Initialize();
         }
 
@@ -34,6 +35,8 @@ namespace Bard
                 Combo.Initialize();
                 Menu.AddSeparator();
                 Harass.Initialize();
+                Menu.AddSeparator();
+                JungleClear.Initialize();
                 Menu.AddSeparator();
                 Misc.Initialize();
             }
@@ -66,7 +69,7 @@ namespace Bard
                 {
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q to Stun"));
-                    _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 300, 100, 450));
+                    _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 325, 100, 450));
                     _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80, 0, 100));
                 }
 
@@ -97,6 +100,36 @@ namespace Bard
                     Menu.AddGroupLabel("Harass");
                     _useQ = Menu.Add("harrasQ", new CheckBox("Use Q always"));
                     _manaQ = Menu.Add("QMana", new Slider("Use Q until % Mana", 40));
+
+                }
+
+                public static void Initialize()
+                {
+                }
+            }
+
+            public static class JungleClear
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly Slider _manaQ;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+
+                public static int ManaQ
+                {
+                    get { return _manaQ.CurrentValue; }
+                }
+
+
+
+                static JungleClear()
+                {
+                    Menu.AddGroupLabel("JungleClear");
+                    _useQ = Menu.Add("jungleQ", new CheckBox("Use Q"));
+                    _manaQ = Menu.Add("jungleQMana", new Slider("Use Q until % Mana", 40));
 
                 }
 
@@ -183,7 +216,7 @@ namespace Bard
                     Menu.AddGroupLabel("Misc");
                     _RInterrupt = Menu.Add("InterruptR", new CheckBox("Use R to interrupt"));
                     _qGapcloser = Menu.Add("GapcloseQ", new CheckBox("Use Q on gapcloser"));
-                    _rInterruptDelay = Menu.Add("InterruptRDelay", new Slider("R Interrupt Delay (ms)", 500, 0, 1000));
+                    _rInterruptDelay = Menu.Add("InterruptRDelay", new Slider("R Interrupt Delay (ms)", 250, 0, 1000));
                     Menu.AddSeparator();
                     _useQKS = Menu.Add("QKS", new CheckBox("Use Q to KS"));
                     _useW = Menu.Add("WUse", new CheckBox("Auto use W to heal Self/Ally"));
@@ -202,6 +235,82 @@ namespace Bard
                 public static void Initialize()
                 {
                 }
+            }
+        }
+
+        public static class Smite
+        {
+            public static readonly Menu SMenu;
+            static Smite()
+            {
+
+                SMenu = Config.Menu.AddSubMenu("Smite Menu");
+
+                SmiteMenu.Initialize();
+            }
+            public static void Initialize()
+            {
+            }
+
+            public static class SmiteMenu
+            {
+                public static readonly KeyBind _smiteEnemies;
+                public static readonly KeyBind _smiteCombo;
+                private static readonly KeyBind _smiteToggle;
+                private static readonly Slider _redSmitePercent;
+
+                public static Menu MainMenu
+                {
+                    get { return SMenu; }
+                }
+
+
+                public static bool SmiteToggle
+                {
+                    get { return _smiteToggle.CurrentValue; }
+                }
+
+                public static bool SmiteEnemies
+                {
+                    get { return _smiteEnemies.CurrentValue; }
+                }
+
+                public static bool SmiteCombo
+                {
+                    get { return _smiteCombo.CurrentValue; }
+                }
+
+                public static int RedSmitePercent
+                {
+                    get { return _redSmitePercent.CurrentValue; }
+                }
+
+                static SmiteMenu()
+                {
+                    SMenu.AddGroupLabel("Smite Options");
+                    SMenu.AddSeparator();
+                    _smiteToggle = SMenu.Add("EnableSmite", new KeyBind("Enable Smite Monsters (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteEnemies = SMenu.Add("EnableSmiteEnemies", new KeyBind("Blue Smite KS (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _smiteCombo = SMenu.Add("EnableSmiteCombo", new KeyBind("Red Smite Combo (Toggle)", false, KeyBind.BindTypes.PressToggle, 'M'));
+                    _redSmitePercent = SMenu.Add("SmiteRedPercent", new Slider("Red Smite Enemy % HP", 60));
+                    SMenu.AddSeparator();
+                    SMenu.AddGroupLabel("Smiteable Monsters");
+                    SMenu.Add("SRU_Baron", new CheckBox("Baron"));
+                    SMenu.Add("SRU_Dragon", new CheckBox("Dragon"));
+                    SMenu.Add("SRU_Red", new CheckBox("Red"));
+                    SMenu.Add("SRU_Blue", new CheckBox("Blue"));
+                    SMenu.Add("SRU_Gromp", new CheckBox("Gromp"));
+                    SMenu.Add("SRU_Murkwolf", new CheckBox("Murkwolf"));
+                    SMenu.Add("SRU_Krug", new CheckBox("Krug"));
+                    SMenu.Add("SRU_Razorbeak", new CheckBox("Razorbeak"));
+                    SMenu.Add("Sru_Crab", new CheckBox("Crab"));
+                    SMenu.Add("SRU_RiftHerald", new CheckBox("Rift Herald", false));
+                }
+
+                public static void Initialize()
+                {
+                }
+
             }
         }
 
@@ -224,6 +333,7 @@ namespace Bard
                 public static readonly CheckBox _drawQ;
                 public static readonly CheckBox _drawW;
                 public static readonly CheckBox _drawR;
+                public static readonly CheckBox _drawSmite;
 
                 public static Menu MainMenu
                 {
@@ -247,6 +357,11 @@ namespace Bard
                     get { return _drawR.CurrentValue; }
                 }
 
+                public static bool DrawSmite
+                {
+                    get { return _drawSmite.CurrentValue; }
+                }
+
                 static DrawMenu()
                 {
                     DMenu.AddGroupLabel("Draw Options");
@@ -254,6 +369,7 @@ namespace Bard
                     _drawQ = DMenu.Add("QDraw", new CheckBox("Draw Q"));
                     _drawW = DMenu.Add("WDraw", new CheckBox("Draw W"));
                     _drawR = DMenu.Add("RDraw", new CheckBox("Draw R"));
+                    _drawSmite = DMenu.Add("SmiteDraw", new CheckBox("Draw Smite"));
                 }
 
                 public static void Initialize()
