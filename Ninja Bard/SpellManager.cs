@@ -17,7 +17,6 @@ namespace Bard
 
         static SpellManager()
         {
-            // Initialize spells
             Q = new Spell.Skillshot(SpellSlot.Q, 860, SkillShotType.Linear, 250, 1500, 65);
             W = new Spell.Skillshot(SpellSlot.W, 800, SkillShotType.Circular);
             E = new Spell.Skillshot(SpellSlot.E, int.MaxValue, SkillShotType.Linear);

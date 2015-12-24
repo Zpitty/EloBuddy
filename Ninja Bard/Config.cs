@@ -1,8 +1,6 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable MemberHidesStaticFromOuterClass
 namespace Bard
 {
     public static class Config
@@ -13,12 +11,10 @@ namespace Bard
 
         static Config()
         {
-            // Initialize the menu
             Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
             Menu.AddGroupLabel("Bard by Zpitty");
             Menu.AddLabel("Please Report any Bugs/Suggestions to the Forum Post!");
 
-            // Initialize the modes
             Modes.Initialize();
             Draw.Initialize();
         }
@@ -82,10 +78,16 @@ namespace Bard
             public static class Harass
             {
                 private static readonly CheckBox _useQ;
+                private static readonly Slider _manaQ;
 
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
+                }
+
+                public static int ManaQ
+                {
+                    get { return _manaQ.CurrentValue; }
                 }
 
                 
@@ -94,6 +96,7 @@ namespace Bard
                 {
                     Menu.AddGroupLabel("Harass");
                     _useQ = Menu.Add("harrasQ", new CheckBox("Use Q always"));
+                    _manaQ = Menu.Add("QMana", new Slider("Use Q until % Mana", 40));
 
                 }
 

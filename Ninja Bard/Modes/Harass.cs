@@ -15,7 +15,7 @@ namespace Bard.Modes
         public override void Execute()
         {
 
-            if (Settings.UseQ && Q.IsReady())
+            if (Settings.UseQ && Q.IsReady() && Player.Instance.ManaPercent >= Settings.ManaQ)
             {
                 var targetq = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 var qprediction = Q.GetPrediction(targetq);

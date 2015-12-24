@@ -118,7 +118,7 @@ namespace Bard.Modes
                 }
 
                 var ally = EntityManager.Heroes.Allies.Where(a => a.IsValidTarget(W.Range) && a.HealthPercent <= Settings.WHeal).OrderBy(a => a.Health).FirstOrDefault();
-                if (Settings.UseW && ally != null && _Bard.ManaPercent > Settings.WMana && !ally.IsRecalling() && !ally.IsInShopRange())
+                if (Settings.UseW && ally != null && _Bard.ManaPercent >= Settings.WMana && !ally.IsRecalling() && !ally.IsInShopRange())
                 {
                     var prediction = W.GetPrediction(ally);
                     W.Cast(prediction.UnitPosition);
