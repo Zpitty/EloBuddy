@@ -66,7 +66,7 @@ namespace Bard
             {
                 return;
             }
-            Core.DelayAction(delegate()
+            Core.DelayAction(delegate
             {
                 if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy) SpellManager.R.Cast(sender);
             }, Config.Modes.Misc.RInterruptDelay);
