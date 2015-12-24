@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Reflection;
+using System.Collections.Generic;
+using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Rendering;
+using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using SharpDX;
-using System.Linq;
+using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Rendering;
+using System.Net;
+using System.Text.RegularExpressions;
+using Version = System.Version;
 using Settings = Bard.Config.Modes.Misc;
 
 namespace Bard
@@ -62,6 +70,7 @@ namespace Bard
             if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender) && e.End.Distance(Player.Instance) <= 300)
             {
                 SpellManager.Q.Cast(gapclosepred.CastPosition);
+                return;
             }
         }
 
@@ -71,16 +80,15 @@ namespace Bard
             {
                 return;
             }
-            Core.DelayAction(delegate
+
+            if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && e.DangerLevel == DangerLevel.High)
             {
-                if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy) SpellManager.R.Cast(sender);
-            }, Config.Modes.Misc.RInterruptDelay);
-
-
-            //if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && sender.IsEnemy)
-            //{
-            //    SpellManager.R.Cast(sender);
-            //}
+                Core.DelayAction(delegate
+                {
+                    SpellManager.R.Cast(sender);
+                }, Config.Modes.Misc.RInterruptDelay);
+                return;
+            }
         }
 
 
