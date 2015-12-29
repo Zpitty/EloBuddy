@@ -126,21 +126,7 @@ namespace RekSai.Modes
                 }
             }
 
-            #endregion          
-
-            Events.KS();
-
-            if (Events.burrowed)
-                Orbwalker.DisableAttacking = true;
-            else
-            {
-                Orbwalker.DisableAttacking = false;
-            }
-
-            
-
-
-
+            #endregion              
         }
     }
 }

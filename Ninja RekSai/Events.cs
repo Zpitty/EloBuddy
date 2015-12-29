@@ -24,10 +24,7 @@ namespace RekSai
             
             Orbwalker.OnPostAttack += OnAfterAttack;
             Drawing.OnDraw += OnDraw;
-            Game.OnTick += Game_OnTick;
-            //Player.OnBuffGain += Player_OnBuffGain;
-            //Player.OnBuffLose += Player_OnBuffLose;
-            
+            Game.OnTick += Game_OnTick;            
         }
 
         private static void Game_OnTick(EventArgs args)
@@ -40,36 +37,16 @@ namespace RekSai
             {
                 burrowed = false;
             }
+
+            if (burrowed)
+                Orbwalker.DisableAttacking = true;
+            else
+            {
+                Orbwalker.DisableAttacking = false;
+            }
+
+            KS();
         }
-
-        //public static void Player_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
-        //{
-        //    if (sender != Player.Instance)
-        //    {
-        //        return;
-        //    }
-
-        //    if (sender == Player.Instance && args.Buff.Name == ("RekSaiW"))
-        //    {
-        //        burrowed = true;
-
-        //    }
-        //}
-
-        //private static void Player_OnBuffLose(Obj_AI_Base sender, Obj_AI_BaseBuffLoseEventArgs args)
-        //{
-        //    if (sender != Player.Instance)
-        //    {
-        //        return;
-        //    }
-
-        //    if (sender == Player.Instance && args.Buff.Name == ("RekSaiW"))
-        //    {
-        //        burrowed = false;
-
-        //    }
-        //}
-
 
         public static void OnAfterAttack(AttackableUnit target, EventArgs args)
         {
@@ -105,14 +82,10 @@ namespace RekSai
                     }
                 }
                 
-                else if (!burrowed && Settings2.UseQ && SpellManager.Q.IsReady())
+                else if (Settings2.UseQ && SpellManager.Q.IsReady())
                 {
-                    var junglemonsters = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, 300);
-                    if (junglemonsters != null)
-                    {
-                        SpellManager.Q.Cast();
-                        return;
-                    }
+                    SpellManager.Q.Cast();
+                    return;
                 }
             }
             
