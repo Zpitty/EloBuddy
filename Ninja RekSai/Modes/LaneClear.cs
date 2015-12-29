@@ -1,9 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using System.Linq;
-using EloBuddy.SDK.Menu;
-using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Enumerations;
 
 using Settings = RekSai.Config.LaneClear.LaneClearMenu;
 
@@ -11,10 +8,6 @@ namespace RekSai.Modes
 {
     public sealed class LaneClear : ModeBase
     {
-        private static bool burrowed = false;
-
-        
-
         public override bool ShouldBeExecuted()
         {
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear);
@@ -22,15 +15,11 @@ namespace RekSai.Modes
 
         public override void Execute()
         {
-            if (Player.Instance.HasBuff("RekSaiW"))
-                burrowed = true;
-            else burrowed = false;
-
             var minionsE = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.Instance.Position, E.Range).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
             var minionsQ2 = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.Instance.Position, 800).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
             var minionsW = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.Instance.Position, Player.Instance.BoundingRadius + 175).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
 
-            if (burrowed)
+            if (Events.burrowed)
             {
                 if (Q2.IsOnCooldown && W.IsReady() && Settings.UseW && minionsW != null)
                 {
@@ -47,7 +36,7 @@ namespace RekSai.Modes
 
             }
 
-            if (!burrowed)
+            if (!Events.burrowed)
             {
                 if (Settings.UseE && E.IsReady())
                 {

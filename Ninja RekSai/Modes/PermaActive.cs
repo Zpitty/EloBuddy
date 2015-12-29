@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Media;
-using System.Net;
+﻿using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Enumerations;
-using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Rendering;
-using SharpDX;
+
 using Settings = RekSai.Config.Misc.MiscMenu;
+
 namespace RekSai.Modes
 {
     public sealed class PermaActive : ModeBase
@@ -134,6 +127,17 @@ namespace RekSai.Modes
             }
 
             #endregion          
+
+            Events.KS();
+
+            if (Events.burrowed)
+                Orbwalker.DisableAttacking = true;
+            else
+            {
+                Orbwalker.DisableAttacking = false;
+            }
+
+            
 
 
 

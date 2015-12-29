@@ -1,13 +1,10 @@
-﻿using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using SharpDX;
 
 namespace RekSai
 {
     class SmiteDamage
     {
-
         //VodkaSmite
         public readonly static string[] MonstersNames =
         {
@@ -54,8 +51,6 @@ namespace RekSai
             var damage = Player.Instance.CalculateDamageOnUnit(target, DamageType.True, (float)new double[] { 80, 90, 120, 150, 180 }[SpellManager.Q.Level - 1] + .7f * Player.Instance.TotalMagicalDamage);
             return damage;
         }
-
-
         public static void Initialize()
         {
         }

@@ -1,9 +1,5 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using System.Linq;
-using EloBuddy.SDK.Menu;
-using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Enumerations;
 
 //using Settings = RekSai.Config.LastHit.LastHitMenu;
 
@@ -11,7 +7,7 @@ namespace RekSai.Modes
 {
     public sealed class LastHit : ModeBase
     {
-        //private static bool burrowed = false;
+
 
         public override bool ShouldBeExecuted()
         {
@@ -20,11 +16,7 @@ namespace RekSai.Modes
 
         public override void Execute()
         {
-            //if (Player.Instance.HasBuff("RekSaiW"))
-            //    burrowed = true;
-            //else burrowed = false;
-
-          
+     
             //if(!burrowed)
             //{       
             //    if (Settings.UseW && W.IsReady() && Q2.IsReady())

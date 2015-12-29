@@ -1,8 +1,5 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using System.Linq;
-using EloBuddy.SDK.Menu;
-using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Enumerations;
 
 using Settings = RekSai.Config.Combo.ComboMenu;
@@ -12,10 +9,6 @@ namespace RekSai.Modes
     public sealed class Combo : ModeBase
     {
 
-        private static bool burrowed = false;
-
-
-
         public override bool ShouldBeExecuted()
         {
 
@@ -24,9 +17,6 @@ namespace RekSai.Modes
 
         public override void Execute()
         {
-            if (Player.Instance.HasBuff("RekSaiW"))
-                burrowed = true;
-            else burrowed = false;
 
             if (Player.Instance.CountEnemiesInRange(800) > 0)
             {
@@ -34,12 +24,21 @@ namespace RekSai.Modes
                 RekSai.ItemsManager.Yomuus();
             }
 
-            if (burrowed)
+
+
+            if (Events.burrowed)
             {
+                var targetW = TargetSelector.GetTarget(Player.Instance.BoundingRadius + 175, DamageType.Physical);
+                var targetQ2 = TargetSelector.GetTarget(850, DamageType.Magical);
+                var predictionQ2 = Q2.GetPrediction(targetQ2);
+                var targetE = TargetSelector.GetTarget(550, DamageType.Physical);
+                var targetE2 = TargetSelector.GetTarget(E2.Range, DamageType.Physical);
+                var predE2 = E2.GetPrediction(targetE2);
+
                 if (Settings.UseW && W.IsReady())
                 {
-                    var targetw = TargetSelector.GetTarget(Player.Instance.BoundingRadius + 175, DamageType.Physical);
-                    if (targetw != null && targetw.IsValidTarget())
+                    
+                    if (targetW != null && targetW.IsValidTarget())
                     {
                         W.Cast();
                         return;
@@ -48,8 +47,7 @@ namespace RekSai.Modes
 
                 if (Settings.UseQ2 && Q2.IsReady())
                 {
-                    var targetQ2 = TargetSelector.GetTarget(850, DamageType.Magical);
-                    var predictionQ2 = Q2.GetPrediction(targetQ2);
+                    
                     if (targetQ2 != null && targetQ2.IsValidTarget() && predictionQ2.HitChance >= HitChance.Medium)
                     {
                         Q2.Cast(predictionQ2.CastPosition);
@@ -60,11 +58,10 @@ namespace RekSai.Modes
 
                 if (Settings.UseE2 && E2.IsReady())
                 {
-                    var targetE = TargetSelector.GetTarget(550, DamageType.Physical);
+                    
                     if (Player.Instance.CountEnemiesInRange(Settings.E2Distance) < 1)
                     {
-                        var targetE2 = TargetSelector.GetTarget(E2.Range, DamageType.Physical);
-                        var predE2 = E2.GetPrediction(targetE2);
+                        
                         if (targetE2.IsValidTarget())
                         {
                             E2.Cast(targetE2.Position + 200);
@@ -75,11 +72,15 @@ namespace RekSai.Modes
                 }
             }
 
-                if (!burrowed)
+                if (!Events.burrowed)
                 {
+                    var targetE = TargetSelector.GetTarget(E.Range, DamageType.Physical);
+                    var lastTarget = Orbwalker.LastTarget;
+                    var target = TargetSelector.GetTarget(300, DamageType.Physical);
+
                     if (Settings.UseE && E.IsReady())
                     {
-                        var targetE = TargetSelector.GetTarget(E.Range, DamageType.Physical);
+                        
                         if (targetE != null && targetE.IsValidTarget())
                         {
                             E.Cast(targetE);
@@ -98,9 +99,6 @@ namespace RekSai.Modes
 
                     if (Settings.UseW && W.IsReady())
                     {
-
-                        var lastTarget = Orbwalker.LastTarget;
-                        var target = TargetSelector.GetTarget(300, DamageType.Physical);
                         if (lastTarget.IsValidTarget(Player.Instance.BoundingRadius + 250) && !target.HasBuff("reksaiknockupimmune"))
                         {
                             W.Cast();
@@ -109,6 +107,6 @@ namespace RekSai.Modes
                     }
                 }
             }
-        
+ 
     }
 }

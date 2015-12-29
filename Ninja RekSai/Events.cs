@@ -1,12 +1,9 @@
 ﻿using System;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
-using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Enumerations;
 using SharpDX;
-using System.Linq;
 using RekSai.Modes;
 
 using Settings = RekSai.Config.Combo.ComboMenu;
@@ -19,32 +16,60 @@ namespace RekSai
     class Events
     {
 
-        private static bool burrowed = false;
+        public static bool burrowed = false;
 
         static Events()
         {
             
             
             Orbwalker.OnPostAttack += OnAfterAttack;
-            Game.OnTick += Game_OnTick;
             Drawing.OnDraw += OnDraw;
+            Game.OnTick += Game_OnTick;
+            //Player.OnBuffGain += Player_OnBuffGain;
+            //Player.OnBuffLose += Player_OnBuffLose;
             
         }
 
         private static void Game_OnTick(EventArgs args)
         {
             if (Player.Instance.HasBuff("RekSaiW"))
+            {
                 burrowed = true;
-            else burrowed = false;
-            if (burrowed)
-                Orbwalker.DisableAttacking = true;
+            }
             else
             {
-                Orbwalker.DisableAttacking = false;
+                burrowed = false;
             }
-
-            KS();
         }
+
+        //public static void Player_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
+        //{
+        //    if (sender != Player.Instance)
+        //    {
+        //        return;
+        //    }
+
+        //    if (sender == Player.Instance && args.Buff.Name == ("RekSaiW"))
+        //    {
+        //        burrowed = true;
+
+        //    }
+        //}
+
+        //private static void Player_OnBuffLose(Obj_AI_Base sender, Obj_AI_BaseBuffLoseEventArgs args)
+        //{
+        //    if (sender != Player.Instance)
+        //    {
+        //        return;
+        //    }
+
+        //    if (sender == Player.Instance && args.Buff.Name == ("RekSaiW"))
+        //    {
+        //        burrowed = false;
+
+        //    }
+        //}
+
 
         public static void OnAfterAttack(AttackableUnit target, EventArgs args)
         {
