@@ -19,7 +19,7 @@ namespace RekSai.Modes
 
             var minionsE = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, E.Range).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
             var minionsQ2 = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, 800).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
-            var minionsW = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Player.Instance.BoundingRadius + 175).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
+            var minionsW = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Player.Instance.BoundingRadius).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
 
             if (Events.burrowed)
             {
@@ -60,7 +60,7 @@ namespace RekSai.Modes
                     return;
                 }
 
-                if (Q2.IsReady() && minionsQ2 != null && !minionsW.HasBuff("reksaiknockupimmune") && !Player.Instance.HasBuff("RekSaiQ"))
+                if (W.IsReady() && Settings.UseW && Q2.IsReady() && minionsQ2 != null && !minionsW.HasBuff("reksaiknockupimmune") && !Player.Instance.HasBuff("RekSaiQ"))
                 {
                     W.Cast();
                     return;

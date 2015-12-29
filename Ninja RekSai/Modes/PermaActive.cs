@@ -127,6 +127,8 @@ namespace RekSai.Modes
             }
 
             #endregion              
+
+            Events.KS();
         }
     }
 }

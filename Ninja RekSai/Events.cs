@@ -24,29 +24,30 @@ namespace RekSai
             
             Orbwalker.OnPostAttack += OnAfterAttack;
             Drawing.OnDraw += OnDraw;
-            Game.OnTick += Game_OnTick;            
+            Player.OnBuffLose += Player_OnBuffLose;
+            Player.OnBuffGain += Player_OnBuffGain;
         }
 
-        private static void Game_OnTick(EventArgs args)
+        private static void Player_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
         {
-            if (Player.Instance.HasBuff("RekSaiW"))
+            if (!sender.IsMe) return;
+            if (sender.IsMe && args.Buff.Name == "RekSaiW")
             {
                 burrowed = true;
+                Orbwalker.DisableAttacking = true;
             }
-            else
+        }
+
+        private static void Player_OnBuffLose(Obj_AI_Base sender, Obj_AI_BaseBuffLoseEventArgs args)
+        {
+            if (!sender.IsMe) return;
+            if (sender.IsMe && args.Buff.Name == "RekSaiW")
             {
                 burrowed = false;
-            }
-
-            if (burrowed)
-                Orbwalker.DisableAttacking = true;
-            else
-            {
                 Orbwalker.DisableAttacking = false;
             }
-
-            KS();
         }
+
 
         public static void OnAfterAttack(AttackableUnit target, EventArgs args)
         {
