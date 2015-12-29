@@ -1,0 +1,83 @@
+﻿using EloBuddy;
+using EloBuddy.SDK;
+using System.Linq;
+using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK.Enumerations;
+
+using Settings = RekSai.Config.JungleClear.JungleClearMenu;
+
+namespace RekSai.Modes
+{
+    public sealed class JungleClear : ModeBase
+    {
+        
+
+
+        private static bool burrowed = false;
+
+
+        
+        public override bool ShouldBeExecuted()
+        {
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
+        }
+
+        public override void Execute()
+        {
+            if (Player.Instance.HasBuff("RekSaiW"))
+                burrowed = true;
+            else burrowed = false;
+
+            var minionsE = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, E.Range).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
+            var minionsQ2 = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, 800).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
+            var minionsW = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Player.Instance.BoundingRadius + 175).Where(a => a.IsValidTarget()).OrderByDescending(a => a.MaxHealth).FirstOrDefault();
+
+            if (burrowed)
+            {
+                if (Q2.IsOnCooldown && W.IsReady() && Settings.UseW && minionsW != null)
+                {
+                    W.Cast();
+                    return;
+                }
+
+                if (Settings.UseQ2 && Q2.IsReady() && minionsQ2 != null)
+                {
+                    Q2.Cast(minionsQ2);
+                    return;
+                }
+
+                
+            }
+
+            if (!burrowed)
+            {
+                if (Settings.UseE && E.IsReady())
+                {
+                    if (minionsE != null && minionsE.Health <= SmiteDamage.EDamage(minionsE))
+                    {
+                        E.Cast(minionsE);
+                        return;
+                    }
+                    if (Player.Instance.Mana == 100)
+                    {
+                        E.Cast(minionsE);
+                        return;
+                    }
+                }
+
+                if (W.IsReady() && Settings.UseW && EntityManager.MinionsAndMonsters.Combined.Where(a => a.IsValidTarget(300)).Count() == 0)
+                {
+                    W.Cast();
+                    return;
+                }
+
+                if (Q2.IsReady() && minionsQ2 != null && !minionsW.HasBuff("reksaiknockupimmune") && !Player.Instance.HasBuff("RekSaiQ"))
+                {
+                    W.Cast();
+                    return;
+                }
+            }
+        }
+    }
+}
