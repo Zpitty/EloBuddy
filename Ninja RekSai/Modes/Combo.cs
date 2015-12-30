@@ -28,7 +28,7 @@ namespace RekSai.Modes
 
             if (Events.burrowed)
             {
-                var targetW = TargetSelector.GetTarget(Player.Instance.BoundingRadius, DamageType.Physical);
+                var targetW = TargetSelector.GetTarget(Player.Instance.BoundingRadius + 175, DamageType.Physical);
                 var targetQ2 = TargetSelector.GetTarget(850, DamageType.Magical);
                 var predictionQ2 = Q2.GetPrediction(targetQ2);
                 var targetE = TargetSelector.GetTarget(550, DamageType.Physical);
