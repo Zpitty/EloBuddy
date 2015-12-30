@@ -24,7 +24,7 @@ namespace RekSai.Modes
 
             if (Events.burrowed && E2.IsReady() && Settings.UseE2)
             {
-                E2.Cast(Game.CursorPos);
+                Player.CastSpell(SpellSlot.E, Game.CursorPos);
                 return;
             }
             
