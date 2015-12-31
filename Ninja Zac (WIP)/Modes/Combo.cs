@@ -77,8 +77,7 @@ namespace Zac.Modes
                     W.Cast();
                     return;
                 }
-            }
-            
+            }            
         }
     }
 }
