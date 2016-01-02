@@ -1,12 +1,24 @@
-﻿using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using SharpDX;
 
 namespace Bard
 {
-    class SmiteDamage
+    class Utility
     {
+        public static Item HealthPotion;
+        public static Item CorruptingPotion;
+        public static Item RefillablePotion;
+        public static Item HuntersPotion;
+        public static Item TotalBiscuit;
+
+        static Utility()
+        {
+            HealthPotion = new Item(2003, 0);
+            TotalBiscuit = new Item(2010, 0);
+            CorruptingPotion = new Item(2033, 0);
+            RefillablePotion = new Item(2031, 0);
+            HuntersPotion = new Item(2032, 0);
+        }
 
         //VodkaSmite
         public readonly static string[] MonstersNames =
@@ -37,6 +49,11 @@ namespace Bard
         {
             return Player.Instance.CalculateDamageOnUnit(target, DamageType.True,
                 20.0f + Player.Instance.Level * 8.0f);
+        }
+
+        public static float IgniteDmg(Obj_AI_Base target)
+        {
+            return Player.Instance.GetSummonerSpellDamage(target, DamageLibrary.SummonerSpells.Ignite);
         }
 
         public static void Initialize()
