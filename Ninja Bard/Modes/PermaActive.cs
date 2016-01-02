@@ -151,6 +151,8 @@ namespace Bard.Modes
             }
 
             #region Smite
+            if (!HasSmite)
+                return;
             if (!Smite.IsReady()) { return; }
 
             if (Smite.IsReady())
@@ -203,7 +205,7 @@ namespace Bard.Modes
             }
             #endregion
 
-           
+
         }
     }
 }
