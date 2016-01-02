@@ -36,6 +36,11 @@ namespace RekSai.Modes
             get { return SpellManager.Smite; }
         }
 
+        protected bool HasSmite
+        {
+            get { return SpellManager.HasSmite(); }
+        }
+
         protected bool PotionRunning()
         {
             return Player.Instance.HasBuff("RegenerationPotion") || Player.Instance.HasBuff("ItemCrystalFlaskJungle") || Player.Instance.HasBuff("ItemMiniRegenPotion") || Player.Instance.HasBuff("ItemCrystalFlask") || Player.Instance.HasBuff("ItemDarkCrystalFlask");

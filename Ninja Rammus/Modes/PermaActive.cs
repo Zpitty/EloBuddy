@@ -84,7 +84,7 @@ namespace Rammus.Modes
             #region Smite
             if (!Smite.IsReady()) { return; }
 
-            if (Smite.IsReady())
+            if (HasSmite && Smite.IsReady())
             {
 
 
