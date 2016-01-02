@@ -1,6 +1,7 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
+
 using Settings = Bard.Config.Modes.Harass;
 
 namespace Bard.Modes
@@ -20,10 +21,15 @@ namespace Bard.Modes
                 
                 var targetq = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 var qprediction = Q.GetPrediction(targetq);
-                if (qprediction.HitChance >= HitChance.High)
+                if (targetq == null) { return; }
+
+                if (targetq != null)
                 {
-                    Q.Cast(qprediction.CastPosition);
-                    return;
+                    if (qprediction.HitChance >= HitChance.High)
+                    {
+                        Q.Cast(qprediction.CastPosition);
+                        return;
+                    }
                 }
             }
 

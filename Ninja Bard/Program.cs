@@ -1,8 +1,8 @@
 ﻿using System;
 using EloBuddy;
 using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Rendering;
-using SharpDX;
+
+
 
 namespace Bard
 {
@@ -24,9 +24,8 @@ namespace Bard
 
             Config.Initialize();
             Events.Initialize();
-            Misc.Initialize();
             ModeManager.Initialize();
-            SmiteDamage.Initialize();
+            Misc.Initialize();
             SpellManager.Initialize();
 
             Chat.Print("Ninja Bard Loaded - Have a Great Game!");
