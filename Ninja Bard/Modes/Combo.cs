@@ -34,9 +34,11 @@ namespace Bard.Modes
 
             if (Settings.UseQ && Q.IsReady())
             {
-                
+
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                var predictionQ = Q.GetPrediction(target);                              
+                if (target == null)
+                    return;
+                var predictionQ = Q.GetPrediction(target);
                 if (target != null && target.IsValid && Misc.WallBangable(target))
                 {
                     Q.Cast(target);
