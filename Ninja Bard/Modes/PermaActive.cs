@@ -1,16 +1,36 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Media;
+using System.Net;
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu.Values;
-
+using EloBuddy.SDK.Rendering;
+using SharpDX;
 using Settings = Bard.Config.Modes.Misc;
 
 namespace Bard.Modes
 {
     public sealed class PermaActive : ModeBase
     {
-        
+        static Item HealthPotion;
+        static Item CorruptingPotion;
+        static Item RefillablePotion;
+        static Item HuntersPotion;
+        static Item TotalBiscuit;
+
+        static PermaActive()
+        {
+            HealthPotion = new Item(2003, 0);
+            TotalBiscuit = new Item(2010, 0);
+            CorruptingPotion = new Item(2033, 0);
+            RefillablePotion = new Item(2031, 0);
+            HuntersPotion = new Item(2032, 0);
+        }
         public static AIHeroClient _Bard
         {
             get { return ObjectManager.Player; }
@@ -28,38 +48,38 @@ namespace Bard.Modes
 
             if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !PotionRunning())
             {
-                if (Item.HasItem(Utility.HealthPotion.Id) && Item.CanUseItem(Utility.HealthPotion.Id))
+                if (Item.HasItem(HealthPotion.Id) && Item.CanUseItem(HealthPotion.Id))
                 {
-                    Utility.HealthPotion.Cast();
+                    HealthPotion.Cast();
                     return;
                 }
-                if (Item.HasItem(Utility.HuntersPotion.Id) && Item.CanUseItem(Utility.HuntersPotion.Id))
+                if (Item.HasItem(HuntersPotion.Id) && Item.CanUseItem(HuntersPotion.Id))
                 {
-                    Utility.HuntersPotion.Cast();
+                    HuntersPotion.Cast();
                     return;
                 }
-                if (Item.HasItem(Utility.TotalBiscuit.Id) && Item.CanUseItem(Utility.TotalBiscuit.Id))
+                if (Item.HasItem(TotalBiscuit.Id) && Item.CanUseItem(TotalBiscuit.Id))
                 {
-                    Utility.TotalBiscuit.Cast();
+                    TotalBiscuit.Cast();
                     return;
                 }
-                if (Item.HasItem(Utility.RefillablePotion.Id) && Item.CanUseItem(Utility.RefillablePotion.Id))
+                if (Item.HasItem(RefillablePotion.Id) && Item.CanUseItem(RefillablePotion.Id))
                 {
-                    Utility.RefillablePotion.Cast();
+                    RefillablePotion.Cast();
                     return;
                 }
-                if (Item.HasItem(Utility.CorruptingPotion.Id) && Item.CanUseItem(Utility.CorruptingPotion.Id))
+                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
                 {
-                    Utility.CorruptingPotion.Cast();
+                    CorruptingPotion.Cast();
                     return;
                 }
             }
 
             if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.ManaPercent <= Settings.MinMPPotion && !PotionRunning())
             {
-                if (Item.HasItem(Utility.CorruptingPotion.Id) && Item.CanUseItem(Utility.CorruptingPotion.Id))
+                if (Item.HasItem(CorruptingPotion.Id) && Item.CanUseItem(CorruptingPotion.Id))
                 {
-                    Utility.CorruptingPotion.Cast();
+                    CorruptingPotion.Cast();
                     return;
                 }
             }
@@ -114,11 +134,15 @@ namespace Bard.Modes
                 }
             }
 
+
+
+
+
             //Ignite KS
 
             if (Settings.IgniteKS && HasIgnite && SpellManager.Ignite.IsReady())
             {
-                var IgniteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.IgniteDmg(e));
+                var IgniteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Misc.IgniteDmg(e));
                 if (IgniteKS != null)
                 {
                     SpellManager.Ignite.Cast(IgniteKS);
@@ -127,11 +151,9 @@ namespace Bard.Modes
             }
 
             #region Smite
-            
-
             if (!Smite.IsReady()) { return; }
 
-            if (HasSmite && Smite.IsReady())
+            if (Smite.IsReady())
             {
 
 
@@ -155,7 +177,7 @@ namespace Bard.Modes
 
                 if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker"))
                 {
-                    var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.SmiteDmgHero(e));
+                    var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
                     if (SmiteKS != null)
                     {
                         Smite.Cast(SmiteKS);
@@ -168,7 +190,7 @@ namespace Bard.Modes
                 {
                     var monsters2 =
                         EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
-                            .Where(e => !e.IsDead && e.Health > 0 && Utility.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Utility.SmiteDmgMonster(e));
+                            .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e));
                     foreach (var n in monsters2)
                     {
                         if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue)

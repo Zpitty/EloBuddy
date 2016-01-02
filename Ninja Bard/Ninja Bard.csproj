@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utility.cs" />
+    <Compile Include="SmiteDamage.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Config.cs" />

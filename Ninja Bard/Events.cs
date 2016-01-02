@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Reflection;
+using System.Collections.Generic;
 using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Events;
+using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Rendering;
-
+using System.Net;
+using System.Text.RegularExpressions;
+using Version = System.Version;
 using Settings = Bard.Config.Modes.Misc;
 
 namespace Bard
