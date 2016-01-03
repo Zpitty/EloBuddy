@@ -84,7 +84,6 @@ namespace Rammus.Modes
             #region Smite
 
 
-            if (!HasSmite) { return; }
 
             if (HasSmite)
             {

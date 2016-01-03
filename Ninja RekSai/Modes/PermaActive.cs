@@ -34,7 +34,7 @@ namespace RekSai.Modes
 
         public override void Execute()
         {
-            Events.KS();
+            
 
             #region Potion
 
@@ -82,8 +82,6 @@ namespace RekSai.Modes
                        
             #region Smite
 
-
-            if (!HasSmite) { return; }
 
             if (HasSmite)
             {
@@ -133,6 +131,8 @@ namespace RekSai.Modes
             }
 
             #endregion
+
+            Events.KS();
         }
     }
 }

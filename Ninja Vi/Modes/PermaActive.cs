@@ -109,7 +109,6 @@ namespace Vi.Modes
             #region Smite
 
 
-            if (!HasSmite) { return; }
 
             if (HasSmite)
             {

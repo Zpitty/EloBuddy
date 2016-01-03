@@ -133,7 +133,7 @@ namespace Bard.Modes
             #region Smite
 
 
-            if (!HasSmite) { return; }
+
 
             if (HasSmite)
             {

@@ -107,9 +107,6 @@ namespace NinjaNunu.Modes
 
             #region Smite
 
-
-            if (!HasSmite) { return; }
-
             if (HasSmite)
             {
                 //Red Smite Combo
