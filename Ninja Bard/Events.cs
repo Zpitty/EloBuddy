@@ -20,6 +20,9 @@ namespace Bard
 {
     public static class Events
     {
+        public static int TunnelNetworkID;
+        public static Vector3 TunnelEntrance = Vector3.Zero;
+        public static Vector3 TunnelExit = Vector3.Zero;
 
 
         static Events()
@@ -28,6 +31,33 @@ namespace Bard
             Gapcloser.OnGapcloser += OnGapCloser;
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Drawing.OnDraw += OnDraw;
+            GameObject.OnCreate += OnCreate;
+            GameObject.OnDelete += OnDelete;
+
+        }
+
+        private static void OnCreate(GameObject sender, EventArgs args)
+        {
+            if (sender.Name.Contains("BardDoor_EntranceMinion") && sender.NetworkId == TunnelNetworkID)
+            {
+                TunnelNetworkID = -1;
+                TunnelEntrance = Vector3.Zero;
+                TunnelExit = Vector3.Zero;
+            }
+        }
+
+        private static void OnDelete(GameObject sender, EventArgs args)
+        {
+            if (sender.Name.Contains("BardDoor_EntranceMinion"))
+            {
+                TunnelNetworkID = sender.NetworkId;
+                TunnelEntrance = sender.Position;
+            }
+
+            if (sender.Name.Contains("BardDoor_ExitMinion"))
+            {
+                TunnelExit = sender.Position;
+            }
         }
 
         public static void Initialize()
