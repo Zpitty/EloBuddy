@@ -1,6 +1,7 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
+
 using Settings = Bard.Config.Modes.Harass;
 
 namespace Bard.Modes
