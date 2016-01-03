@@ -43,9 +43,7 @@ namespace Bard.Modes
                 //    return;
                 //}
 
-                //if (Qext == null)
-                //{ return; }
-                else if (predQext.CollisionObjects.Count(a => a.IsValidTarget(Q.Range) && a.Distance(Qext) <= Settings.QBindDistanceM) == 1)
+                else if (Qext.IsValid && predQext.CollisionObjects.Count(a => a.IsValidTarget(Q.Range) && a.Distance(Qext) <= Settings.QBindDistanceM) == 1)
                 {
                     Q.Cast(predQext.CastPosition);
                     return;
