@@ -106,15 +106,15 @@ namespace NinjaNunu.Modes
             }
 
             #region Smite
-            if (!Smite.IsReady()) { return; }
 
-            if (HasSmite && Smite.IsReady())
+
+            if (!HasSmite) { return; }
+
+            if (HasSmite)
             {
-
-
                 //Red Smite Combo
 
-                if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Smite.IsReady())
                 {
                     foreach (
                         var SmiteTarget in
@@ -130,7 +130,7 @@ namespace NinjaNunu.Modes
 
                 // Blue Smite KS
 
-                if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker"))
+                if (Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
                 {
                     var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
                     if (SmiteKS != null)
@@ -141,7 +141,7 @@ namespace NinjaNunu.Modes
                 }
 
                 // Smite Monsters
-                if (Config.Smite.SmiteMenu.SmiteToggle)
+                if (Config.Smite.SmiteMenu.SmiteToggle && Smite.IsReady())
                 {
                     var monsters2 =
                         EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
@@ -156,6 +156,7 @@ namespace NinjaNunu.Modes
                     }
                 }
             }
+
             #endregion
 
 

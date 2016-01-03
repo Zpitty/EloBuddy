@@ -34,6 +34,8 @@ namespace RekSai.Modes
 
         public override void Execute()
         {
+            Events.KS();
+
             #region Potion
 
             //Haker
@@ -77,17 +79,17 @@ namespace RekSai.Modes
             }
 
             #endregion
-
+                       
             #region Smite
-            if (!Smite.IsReady()) { return; }
 
-            if (HasSmite && Smite.IsReady())
+
+            if (!HasSmite) { return; }
+
+            if (HasSmite)
             {
-
-
                 //Red Smite Combo
 
-                if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Smite.IsReady())
                 {
                     foreach (
                         var SmiteTarget in
@@ -103,7 +105,7 @@ namespace RekSai.Modes
 
                 // Blue Smite KS
 
-                if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker"))
+                if (Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
                 {
                     var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
                     if (SmiteKS != null)
@@ -114,7 +116,7 @@ namespace RekSai.Modes
                 }
 
                 // Smite Monsters
-                if (Config.Smite.SmiteMenu.SmiteToggle)
+                if (Config.Smite.SmiteMenu.SmiteToggle && Smite.IsReady())
                 {
                     var monsters2 =
                         EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
@@ -129,9 +131,8 @@ namespace RekSai.Modes
                     }
                 }
             }
-            #endregion
 
-            Events.KS();
+            #endregion
         }
     }
 }
