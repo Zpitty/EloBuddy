@@ -156,7 +156,6 @@ namespace Bard.Modes
                 }
             }
             #endregion
-
         }
     }
 }
