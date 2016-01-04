@@ -1,5 +1,4 @@
-﻿using EloBuddy;
-using EloBuddy.SDK;
+﻿using EloBuddy.SDK;
 
 namespace Bard.Modes
 {

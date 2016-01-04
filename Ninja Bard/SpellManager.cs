@@ -1,7 +1,7 @@
-﻿using EloBuddy;
-using EloBuddy.SDK;
+﻿using System;
 using System.Linq;
-using System;
+using EloBuddy;
+using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 
 namespace Bard

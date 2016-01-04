@@ -1,6 +1,9 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable MemberHidesStaticFromOuterClass
+
 namespace Bard
 {
     public static class Config
@@ -77,7 +80,7 @@ namespace Bard
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q to Stun"));
                     _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 325, 100, 450));
                     _qBindDistanceM = Menu.Add("qBindM", new Slider("Q Bind Distance through units (minions/champs)", 425, 100, 450));
-                    _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80, 0, 100));
+                    _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80));
                 }
 
                 public static void Initialize()
@@ -228,7 +231,7 @@ namespace Bard
                     _useQKS = Menu.Add("QKS", new CheckBox("Use Q to KS"));
                     _useW = Menu.Add("WUse", new CheckBox("Auto use W to heal Self/Ally"));
                     _disableMAA = Menu.Add("disablemAA", new CheckBox("Don't Auto Attack Minions"));
-                    _wHeal = Menu.Add("healW", new Slider("Use at % Health", 40));
+                    _wHeal = Menu.Add("healW", new Slider("Use W at % Health", 40));
                     _wMana = Menu.Add("manaW", new Slider("Use W until % Mana", 20));
                     Menu.AddSeparator();
                     Menu.AddGroupLabel("Utility");
@@ -247,11 +250,10 @@ namespace Bard
 
         public static class Smite
         {
-            public static readonly Menu SMenu;
+            private static readonly Menu SMenu;
             static Smite()
             {
-
-                SMenu = Config.Menu.AddSubMenu("Smite Menu");
+                SMenu = Menu.AddSubMenu("Smite Menu");
 
                 SmiteMenu.Initialize();
             }
@@ -261,8 +263,8 @@ namespace Bard
 
             public static class SmiteMenu
             {
-                public static readonly KeyBind _smiteEnemies;
-                public static readonly KeyBind _smiteCombo;
+                private static readonly KeyBind _smiteEnemies;
+                private static readonly KeyBind _smiteCombo;
                 private static readonly KeyBind _smiteToggle;
                 private static readonly Slider _redSmitePercent;
 
@@ -323,11 +325,11 @@ namespace Bard
 
         public static class Draw
         {
-            public static readonly Menu DMenu;
+            private static readonly Menu DMenu;
             static Draw()
             {
 
-                DMenu = Config.Menu.AddSubMenu("Draw Menu");
+                DMenu = Menu.AddSubMenu("Draw Menu");
 
                 DrawMenu.Initialize();
             }
@@ -337,16 +339,10 @@ namespace Bard
 
             public static class DrawMenu
             {
-                public static readonly CheckBox _drawQ;
-                public static readonly CheckBox _drawW;
-                public static readonly CheckBox _drawR;
-                public static readonly CheckBox _drawSmite;
-
-                public static Menu MainMenu
-                {
-                    get { return DMenu; }
-                }
-
+                private static readonly CheckBox _drawQ;
+                private static readonly CheckBox _drawW;
+                private static readonly CheckBox _drawR;
+                private static readonly CheckBox _drawSmite;
 
                 public static bool DrawQ
                 {

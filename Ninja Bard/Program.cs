@@ -2,13 +2,11 @@
 using EloBuddy;
 using EloBuddy.SDK.Events;
 
-
-
 namespace Bard
 {
     public static class Program
     {
-        public const string ChampName = "Bard";
+        private const string ChampName = "Bard";
 
         public static void Main(string[] args)
         {

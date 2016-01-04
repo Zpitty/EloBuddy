@@ -10,8 +10,8 @@ namespace Bard.Modes
 {
     public sealed class PermaActive : ModeBase
     {
-        
-        public static AIHeroClient _Bard
+
+        private static AIHeroClient BardPitt
         {
             get { return ObjectManager.Player; }
         }
@@ -23,8 +23,6 @@ namespace Bard.Modes
         public override void Execute()
         {
             #region Potion
-
-            //Haker
 
             if (Settings.EnablePotion && !Player.Instance.IsInShopRange() && Player.Instance.HealthPercent <= Settings.MinHPPotion && !PotionRunning())
             {
@@ -70,22 +68,22 @@ namespace Bard.Modes
 
             if (W.IsReady())
             {
-                if (_Bard.IsRecalling() || _Bard.IsInShopRange())
+                if (BardPitt.IsRecalling() || BardPitt.IsInShopRange())
                 {
                     return;
                 }
 
                 var ally = EntityManager.Heroes.Allies.Where(a => a.IsValidTarget(W.Range) && a.HealthPercent <= Settings.WHeal).OrderBy(a => a.Health).FirstOrDefault();
-                if (Settings.UseW && ally != null && _Bard.ManaPercent >= Settings.WMana && !ally.IsRecalling() && !ally.IsInShopRange())
+                if (Settings.UseW && ally != null && BardPitt.ManaPercent >= Settings.WMana && !ally.IsRecalling() && !ally.IsInShopRange())
                 {
                     var prediction = W.GetPrediction(ally);
                     W.Cast(prediction.UnitPosition);
                     return;
                 }
 
-                if (Settings.UseW && _Bard.HealthPercent <= Settings.WHeal && _Bard.ManaPercent > Settings.WMana)
+                if (Settings.UseW && BardPitt.HealthPercent <= Settings.WHeal && BardPitt.ManaPercent > Settings.WMana)
                 {
-                    W.Cast(_Bard);
+                    W.Cast(BardPitt);
                     return;
                 }
             }
@@ -96,99 +94,68 @@ namespace Bard.Modes
 
             if (Settings.UseQKS && Q.IsReady())
             {
-                foreach (
-                var target in
-                    EntityManager.Heroes.Enemies.Where(
-                        hero =>
-                            hero.IsValidTarget(Q.Range) && !hero.IsDead && !hero.IsZombie && hero.HealthPercent <= 25))
+                foreach (var predictionQ in from target in EntityManager.Heroes.Enemies.Where(
+                    hero =>
+                        hero.IsValidTarget(Q.Range) && !hero.IsDead && !hero.IsZombie && hero.HealthPercent <= 25) let predictionQ = Q.GetPrediction(target) where target.Health + target.TotalShieldHealth() < ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q) where predictionQ.HitChance >= HitChance.High select predictionQ)
                 {
-                    var predictionQ = Q.GetPrediction(target);
-                    if (target.Health + target.TotalShieldHealth() < ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q))
-                    {
-                        if (predictionQ.HitChance >= HitChance.High)
-                        {
-                            Q.Cast(predictionQ.CastPosition);
-                            return;
-                        }
-                    }
+                    Q.Cast(predictionQ.CastPosition);
+                    return;
                 }
             }
 
-
-
-
-
             //Ignite KS
-
             if (Settings.IgniteKS && HasIgnite && SpellManager.Ignite.IsReady())
             {
-                var IgniteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.IgniteDmg(e));
-                if (IgniteKS != null)
+                var igniteKs = EntityManager.Heroes.Enemies.FirstOrDefault(e => SpellManager.Ignite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.IgniteDmg(e));
+                if (igniteKs != null)
                 {
-                    SpellManager.Ignite.Cast(IgniteKS);
+                    SpellManager.Ignite.Cast(igniteKs);
                     return;
                 }
             }
 
             #region Smite
 
-
-
-
-            if (HasSmite)
+            if (!HasSmite) return;
             {
                 //Red Smite Combo
-
                 if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Smite.IsReady())
                 {
                     foreach (
-                        var SmiteTarget in
+                        var smiteTarget in
                             EntityManager.Heroes.Enemies
                                 .Where(h => h.IsValidTarget(Smite.Range)).Where(h => h.HealthPercent <= Config.Smite.SmiteMenu.RedSmitePercent).OrderByDescending(TargetSelector.GetPriority))
                     {
-                        Smite.Cast(SmiteTarget);
+                        Smite.Cast(smiteTarget);
                         return;
                     }
                 }
 
-
-
                 // Blue Smite KS
-
-                if (Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
+                if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
                 {
-                    var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.SmiteDmgHero(e));
-                    if (SmiteKS != null)
+                    var smiteKs = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < Utility.SmiteDmgHero(e));
+                    if (smiteKs != null)
                     {
-                        Smite.Cast(SmiteKS);
+                        Smite.Cast(smiteKs);
                         return;
                     }
                 }
 
                 // Smite Monsters
-                if (Config.Smite.SmiteMenu.SmiteToggle && Smite.IsReady())
+                if (!Config.Smite.SmiteMenu.SmiteToggle || !Smite.IsReady()) return;
                 {
                     var monsters2 =
                         EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
                             .Where(e => !e.IsDead && e.Health > 0 && Utility.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= Utility.SmiteDmgMonster(e));
-                    foreach (var n in monsters2)
+                    foreach (var n in monsters2.Where(n => Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue))
                     {
-                        if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue)
-                        {
-                            Smite.Cast(n);
-                            return;
-                        }
+                        Smite.Cast(n);
+                        return;
                     }
                 }
             }
-
             #endregion
-
-
-
-                
-
-
         }
     }
 }

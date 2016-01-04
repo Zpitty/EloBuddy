@@ -1,7 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 
-
 namespace Bard.Modes
 {
     public abstract class ModeBase
@@ -13,7 +12,7 @@ namespace Bard.Modes
 
         protected Spell.Skillshot Q2
         {
-            get { return SpellManager.Q; }
+            get { return SpellManager.Q2; }
         }
         protected Spell.Skillshot W
         {
