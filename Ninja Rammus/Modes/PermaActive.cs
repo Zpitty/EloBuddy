@@ -83,7 +83,7 @@ namespace Rammus.Modes
 
             #region Smite
 
-            if (!HasSmite) return;
+            if (HasSmite)
             {
                 //Red Smite Combo
                 if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Smite.IsReady())
