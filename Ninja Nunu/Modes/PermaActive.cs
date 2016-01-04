@@ -107,53 +107,45 @@ namespace NinjaNunu.Modes
 
             #region Smite
 
-            if (HasSmite)
+            if (!HasSmite) return;
             {
                 //Red Smite Combo
-
                 if (Config.Smite.SmiteMenu.SmiteCombo && Smite.Name.Equals("s5_summonersmiteduel") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Smite.IsReady())
                 {
                     foreach (
-                        var SmiteTarget in
+                        var smiteTarget in
                             EntityManager.Heroes.Enemies
                                 .Where(h => h.IsValidTarget(Smite.Range)).Where(h => h.HealthPercent <= Config.Smite.SmiteMenu.RedSmitePercent).OrderByDescending(TargetSelector.GetPriority))
                     {
-                        Smite.Cast(SmiteTarget);
+                        Smite.Cast(smiteTarget);
                         return;
                     }
                 }
 
-
-
                 // Blue Smite KS
-
-                if (Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
+                if (Config.Smite.SmiteMenu.SmiteEnemies && Smite.Name.Equals("s5_summonersmiteplayerganker") && Smite.IsReady())
                 {
-                    var SmiteKS = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
-                    if (SmiteKS != null)
+                    var smiteKs = EntityManager.Heroes.Enemies.FirstOrDefault(e => Smite.IsInRange(e) && !e.IsDead && e.Health > 0 && !e.IsInvulnerable && e.IsVisible && e.TotalShieldHealth() < SmiteDamage.SmiteDmgHero(e));
+                    if (smiteKs != null)
                     {
-                        Smite.Cast(SmiteKS);
+                        Smite.Cast(smiteKs);
                         return;
                     }
                 }
 
                 // Smite Monsters
-                if (Config.Smite.SmiteMenu.SmiteToggle && Smite.IsReady())
+                if (!Config.Smite.SmiteMenu.SmiteToggle || !Smite.IsReady()) return;
                 {
                     var monsters2 =
                         EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.ServerPosition, Smite.Range)
                             .Where(e => !e.IsDead && e.Health > 0 && SmiteDamage.MonstersNames.Contains(e.BaseSkinName) && !e.IsInvulnerable && e.IsVisible && e.Health <= SmiteDamage.SmiteDmgMonster(e));
-                    foreach (var n in monsters2)
+                    foreach (var n in monsters2.Where(n => Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue))
                     {
-                        if (Config.Smite.SmiteMenu.MainMenu[n.BaseSkinName].Cast<CheckBox>().CurrentValue)
-                        {
-                            Smite.Cast(n);
-                            return;
-                        }
+                        Smite.Cast(n);
+                        return;
                     }
                 }
             }
-
             #endregion
 
 
