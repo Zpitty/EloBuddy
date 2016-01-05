@@ -6,6 +6,8 @@ using EloBuddy.SDK.Rendering;
 using EloBuddy.SDK.Menu.Values;
 using SharpDX;
 
+using Settings = Rammus.Config.Draw.DrawMenu;
+
 namespace Rammus
 {
     class Events
@@ -23,29 +25,34 @@ namespace Rammus
 
         private static void OnDraw(EventArgs args)
         {
-            if (Config.Draw.DMenu["QDraw"].Cast<CheckBox>().CurrentValue && SpellManager.Q.IsLearned)
+            if (Settings.DrawQ && SpellManager.Q.IsLearned)
             {
                 Circle.Draw(Color.Green, SpellManager.Q.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["WDraw"].Cast<CheckBox>().CurrentValue && SpellManager.W.IsLearned)
+            if (Settings.DrawW && SpellManager.W.IsLearned)
             {
                 Circle.Draw(Color.Red, SpellManager.W.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["EDraw"].Cast<CheckBox>().CurrentValue && SpellManager.E.IsLearned)
+            if (Settings.DrawE && SpellManager.E.IsLearned)
             {
                 Circle.Draw(Color.LightBlue, SpellManager.E.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["RDraw"].Cast<CheckBox>().CurrentValue && SpellManager.R.IsLearned)
+            if (Settings.DrawR && SpellManager.R.IsLearned)
             {
                 Circle.Draw(Color.DarkBlue, SpellManager.R.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["SmiteDraw"].Cast<CheckBox>().CurrentValue)
+            if (SpellManager.HasSmite())
             {
-                Circle.Draw(Color.Purple, SpellManager.Smite.Range, Player.Instance.Position);
+                if (Settings.DrawSmite && Config.Smite.SmiteMenu.SmiteToggle
+                    || Settings.DrawSmite && Config.Smite.SmiteMenu.SmiteCombo
+                    || Settings.DrawSmite && Config.Smite.SmiteMenu.SmiteEnemies)
+                {
+                    Circle.Draw(Color.Blue, SpellManager.Smite.Range, Player.Instance.Position);
+                }
             }
         }
 

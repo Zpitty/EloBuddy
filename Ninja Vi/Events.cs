@@ -8,6 +8,7 @@ using SharpDX;
 using System.Linq;
 using Settings = Vi.Config.Modes.Combo;
 using Settings2 = Vi.Config.Modes.JungleClear;
+using Settings3 = Vi.Config.Draw.DrawMenu;
 
 namespace Vi
 {
@@ -68,29 +69,34 @@ namespace Vi
 
         private static void OnDraw(EventArgs args)
         {
-            if (Config.Draw.DMenu["QDraw"].Cast<CheckBox>().CurrentValue && SpellManager.Q.IsLearned)
+            if (Settings3.DrawQ && SpellManager.Q.IsLearned)
             {
                 Circle.Draw(Color.Green, 725, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["WDraw"].Cast<CheckBox>().CurrentValue)
+            if (Settings3.DrawW && SpellManager.W.IsLearned)
             {
                 Circle.Draw(Color.Red, SpellManager.W.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["EDraw"].Cast<CheckBox>().CurrentValue && SpellManager.E.IsLearned)
+            if (Settings3.DrawE && SpellManager.E.IsLearned)
             {
                 Circle.Draw(Color.LightBlue, SpellManager.E.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["RDraw"].Cast<CheckBox>().CurrentValue && SpellManager.R.IsLearned)
+            if (Settings3.DrawR && SpellManager.R.IsLearned)
             {
                 Circle.Draw(Color.DarkBlue, SpellManager.R.Range, Player.Instance.Position);
             }
 
-            if (Config.Draw.DMenu["SmiteDraw"].Cast<CheckBox>().CurrentValue)
+            if (SpellManager.HasSmite())
             {
-                Circle.Draw(Color.Purple, SpellManager.Smite.Range, Player.Instance.Position);
+                if (Settings3.DrawSmite && Config.Smite.SmiteMenu.SmiteToggle
+                    || Settings3.DrawSmite && Config.Smite.SmiteMenu.SmiteCombo
+                    || Settings3.DrawSmite && Config.Smite.SmiteMenu.SmiteEnemies)
+                {
+                    Circle.Draw(Color.Blue, SpellManager.Smite.Range, Player.Instance.Position);
+                }
             }
         }
         public static void Initialize()

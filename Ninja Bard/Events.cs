@@ -48,9 +48,14 @@ namespace Bard
                 Circle.Draw(Color.DarkBlue, SpellManager.R.Range, Player.Instance.Position);
             }
 
-            if (Settings2.DrawSmite && SpellManager.HasSmite())
+            if (SpellManager.HasSmite())
             {
-                Circle.Draw(Color.Purple, SpellManager.Smite.Range, Player.Instance.Position);
+                if (Settings2.DrawSmite && Config.Smite.SmiteMenu.SmiteToggle
+                    || Settings2.DrawSmite && Config.Smite.SmiteMenu.SmiteCombo
+                    || Settings2.DrawSmite && Config.Smite.SmiteMenu.SmiteEnemies)
+                {
+                    Circle.Draw(Color.Blue, SpellManager.Smite.Range, Player.Instance.Position);
+                }
             }
         }
 

@@ -131,9 +131,14 @@ namespace RekSai
                 Circle.Draw(Color.Green, SpellManager.E2.Range, Player.Instance.Position);
             }
 
-            if (Settings4.DrawSmite && SpellManager.Smite.IsLearned)
+            if (SpellManager.HasSmite())
             {
-                Circle.Draw(Color.Blue, SpellManager.Smite.Range, Player.Instance.Position);
+                if (Settings4.DrawSmite && Config.Smite.SmiteMenu.SmiteToggle
+                    || Settings4.DrawSmite && Config.Smite.SmiteMenu.SmiteCombo
+                    || Settings4.DrawSmite && Config.Smite.SmiteMenu.SmiteEnemies)
+                {
+                    Circle.Draw(Color.Blue, SpellManager.Smite.Range, Player.Instance.Position);
+                }
             }
         }
         public static void Initialize()
