@@ -10,6 +10,11 @@ namespace Bard.Modes
         {
             get { return SpellManager.Q; }
         }
+
+        protected Spell.Skillshot Q2
+        {
+            get { return SpellManager.Q; }
+        }
         protected Spell.Skillshot W
         {
             get { return SpellManager.W; }

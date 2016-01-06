@@ -49,6 +49,7 @@ namespace Bard
             {
                 private static readonly CheckBox _useQ;
                 private static readonly Slider _qBindDistance;
+                private static readonly Slider _qBindDistanceM;
                 private static readonly Slider _qAccuracyPercent;
 
                 public static bool UseQ
@@ -61,6 +62,11 @@ namespace Bard
                     get { return _qBindDistance.CurrentValue; }
                 }
 
+                public static int QBindDistanceM
+                {
+                    get { return _qBindDistanceM.CurrentValue; }
+                }
+
                 public static int QAccuracyPercent
                 {
                     get { return _qAccuracyPercent.CurrentValue; }
@@ -70,6 +76,7 @@ namespace Bard
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q to Stun"));
                     _qBindDistance = Menu.Add("qBind", new Slider("Q Bind Distance to Wall", 325, 100, 450));
+                    _qBindDistanceM = Menu.Add("qBindM", new Slider("Q Bind Distance through units (minions/champs)", 425, 100, 450));
                     _qAccuracyPercent = Menu.Add("qAccuracy", new Slider("Q Accuracy % to Wall", 80, 0, 100));
                 }
 

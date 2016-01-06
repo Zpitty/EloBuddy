@@ -27,21 +27,27 @@ namespace Bard.Modes
 
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 var predictionQ = Q.GetPrediction(target);
+                var Qext = TargetSelector.GetTarget(Q2.Range, DamageType.Magical);
+                var predQext = Q2.GetPrediction(Qext);
 
                 if (target == null) { return; }
 
-                if (target != null && target.IsValid && Misc.WallBangable(target))
-                {
-                    Q.Cast(target);
-                    return;
-                }
-
-                else if (predictionQ.CollisionObjects.Count() == 1)
+                if (target != null && target.IsValid && Misc.WallBangable(target) && predictionQ.CollisionObjects.Count() == 0)
                 {
                     Q.Cast(predictionQ.CastPosition);
                     return;
                 }
+                //else if (predictionQ.CollisionObjects.Count() == 1)
+                //{
+                //    Q.Cast(predictionQ.CastPosition);
+                //    return;
+                //}
 
+                else if (Qext.IsValid && predQext.CollisionObjects.Count(a => a.IsValidTarget(Q.Range) && a.Distance(Qext) <= Settings.QBindDistanceM) == 1)
+                {
+                    Q.Cast(predQext.CastPosition);
+                    return;
+                }
             }
             #endregion
         }
