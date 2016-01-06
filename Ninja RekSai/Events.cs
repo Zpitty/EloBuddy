@@ -95,9 +95,10 @@ namespace RekSai
         public static void KS()
         {
             var targetKSQ2 = TargetSelector.GetTarget(SpellManager.Q2.Range, DamageType.Magical);
-            var predQ2 = SpellManager.Q2.GetPrediction(targetKSQ2);
-            if (burrowed && Settings3.EnableKS && SpellManager.Q2.IsReady())
+            
+            if (targetKSQ2 != null && burrowed && Settings3.EnableKS && SpellManager.Q2.IsReady())
             {
+                var predQ2 = SpellManager.Q2.GetPrediction(targetKSQ2);
                 if (predQ2.HitChance >= HitChance.High && targetKSQ2.Health < Player.Instance.GetSpellDamage(targetKSQ2, SpellSlot.Q))
                 {
                     SpellManager.Q2.Cast(predQ2.CastPosition);

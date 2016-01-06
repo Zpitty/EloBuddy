@@ -20,13 +20,17 @@ namespace RekSai.Modes
             if (Settings.UseQ2 && Q2.IsReady())
             {
                 var targetQ2 = TargetSelector.GetTarget(Q2.Range, DamageType.Magical);
-                var predictionQ2 = Q2.GetPrediction(targetQ2);
-                if (Events.burrowed && targetQ2 != null && targetQ2.IsValidTarget() && predictionQ2.HitChance >= HitChance.Medium)
+                
+                if (Events.burrowed && targetQ2 != null && targetQ2.IsValidTarget())
                 {
-                    Q2.Cast(predictionQ2.CastPosition);
-                    return;
+                    var predictionQ2 = Q2.GetPrediction(targetQ2);
+                    if (predictionQ2.HitChance >= HitChance.Medium)
+                    {
+                        Q2.Cast(predictionQ2.CastPosition);
+                        return;
+                    }
                 }
-                else if (!Events.burrowed && predictionQ2.HitChance >= HitChance.Medium)
+                else if (!Events.burrowed)
                 {
                     W.Cast();
                     return;

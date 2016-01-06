@@ -30,7 +30,7 @@ namespace RekSai.Modes
             {
                 var targetW = TargetSelector.GetTarget(Player.Instance.BoundingRadius + 175, DamageType.Physical);
                 var targetQ2 = TargetSelector.GetTarget(850, DamageType.Magical);
-                var predictionQ2 = Q2.GetPrediction(targetQ2);
+                
                 var targetE = TargetSelector.GetTarget(550, DamageType.Physical);
                 var targetE2 = TargetSelector.GetTarget(E2.Range, DamageType.Physical);
                 var predE2 = E2.GetPrediction(targetE2);
@@ -48,10 +48,14 @@ namespace RekSai.Modes
                 if (Settings.UseQ2 && Q2.IsReady())
                 {
                     
-                    if (targetQ2 != null && targetQ2.IsValidTarget() && predictionQ2.HitChance >= HitChance.Medium)
+                    if (targetQ2 != null && targetQ2.IsValidTarget())
                     {
-                        Q2.Cast(predictionQ2.CastPosition);
-                        return;
+                        var predictionQ2 = Q2.GetPrediction(targetQ2);
+                        if (predictionQ2.HitChance >= HitChance.Medium)
+                        {
+                            Q2.Cast(predictionQ2.CastPosition);
+                            return;
+                        }
                     }
 
                 }
