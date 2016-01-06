@@ -74,9 +74,7 @@ namespace Vi.Modes
             {
                 var target2 = TargetSelector.SelectedTarget;
                 var range = SpellManager.Q.MaximumRange + SpellManager.Flash.Range;
-                var target = TargetSelector.GetTarget(range, DamageType.Physical);
-                var flash = SpellManager.Flash.GetPrediction(target2);
-                var qpred = SpellManager.Q.GetPrediction(target2);
+
 
                 if (target2 != null && target2.IsValidTarget(SpellManager.Q.MaximumRange + SpellManager.Flash.Range))
                 {
