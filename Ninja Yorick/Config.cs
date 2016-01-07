@@ -69,7 +69,7 @@ namespace Yorick
                     _useW = CMenu.Add("comboUseW", new CheckBox("Use W"));
                     _useE = CMenu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = CMenu.Add("comboUseR", new CheckBox("Use R", false));
-                    _clone = CMenu.Add("comboclone", new CheckBox("Move Clone?"));
+                    _clone = CMenu.Add("comboclone", new CheckBox("Move Ghost?"));
                     _healthR = CMenu.Add("combohealthR", new Slider("Use R when Health % below", 20));
                     CMenu.AddLabel("Use R on:");
                     if (EntityManager.Heroes.Allies.Count > 0)
