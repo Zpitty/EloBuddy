@@ -41,7 +41,6 @@ namespace Bard
             if (Utility.SmiteNames.ToList().Contains(Player.Instance.Spellbook.GetSpell(SpellSlot.Summoner1).Name))
             {
                 Smite = new Spell.Targeted(SpellSlot.Summoner1, 570);
-                return;
             }
             if (Utility.SmiteNames.ToList().Contains(Player.Instance.Spellbook.GetSpell(SpellSlot.Summoner2).Name))
             {
